@@ -1,4 +1,4 @@
-AI Business Operations Toolkit
+**AI Business Operations Toolkit**
 
 A practical framework for identifying, evaluating and scaling artificial intelligence opportunities across business operations.
 
@@ -11,16 +11,28 @@ The frameworks, examples, organizations, datasets and scenarios contained in thi
 No confidential, proprietary, commercially sensitive or employer-specific information is used in this project.
 
 What this toolkit covers
+
 AI opportunity identification
+
 AI use-case assessment
+
 AI maturity
+
 AI governance
+
 Business case development
+
 ROI and value assessment
+
 AI adoption
+
 Operating model considerations
+
 Executive decision-making
+
 AI transformation
+
+
 Intended audience
 
 This toolkit is designed for business leaders, operations leaders, transformation leaders and executives exploring how AI can create measurable business value.
