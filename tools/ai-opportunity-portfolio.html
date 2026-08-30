@@ -1,0 +1,1379 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI Opportunity Portfolio Prioritizer</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f6f8;
+      color: #1f2937;
+    }
+
+    .header {
+      background: #111827;
+      color: white;
+      padding: 42px 20px;
+    }
+
+    .header-inner {
+      max-width: 1150px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 12px;
+      font-weight: bold;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      max-width: 800px;
+      margin-top: 12px;
+      font-size: 17px;
+      line-height: 1.6;
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .card-description {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    /* OPPORTUNITY CARDS */
+
+    .opportunity-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .opportunity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .opportunity-number {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b7280;
+      font-weight: bold;
+    }
+
+    .remove-button {
+      background: transparent;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      padding: 7px 12px;
+      font-size: 12px;
+    }
+
+    .remove-button:hover {
+      background: #f3f4f6;
+      opacity: 1;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      background: white;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #111827;
+    }
+
+    .opportunity-name {
+      margin-bottom: 20px;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .score-label {
+      font-size: 12px;
+      color: #6b7280;
+      min-height: 32px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .primary-button {
+      background: #111827;
+      color: white;
+    }
+
+    .secondary-button {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .add-button {
+      background: white;
+      color: #111827;
+      border: 1px solid #111827;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .limit-message {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    /* RESULTS */
+
+    .results {
+      display: none;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .summary-box {
+      background: #f3f4f6;
+      border-radius: 9px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .summary-number {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .summary-label {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    /* TABLE */
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 13px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: middle;
+    }
+
+    th {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+
+    td {
+      font-size: 14px;
+    }
+
+    .rank {
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .score-number {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .recommendation {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.3px;
+    }
+
+    .prioritize {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .experiment {
+      background: #f3f4f6;
+      color: #374151;
+    }
+
+    .investigate {
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .deprioritize {
+      background: #eeeeee;
+      color: #6b7280;
+    }
+
+    /* MATRIX */
+
+    .matrix-wrapper {
+      margin-top: 35px;
+    }
+
+    .matrix {
+      position: relative;
+      width: 100%;
+      max-width: 760px;
+      height: 500px;
+      margin: 30px auto 10px;
+      border: 1px solid #d1d5db;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    .quadrant {
+      padding: 20px;
+      border: 1px solid #d1d5db;
+    }
+
+    .quadrant h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .quadrant p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .prioritize-zone {
+      background: #f1f2f4;
+    }
+
+    .matrix-dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #111827;
+      border: 3px solid white;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.3);
+      transform: translate(-50%, 50%);
+      z-index: 5;
+    }
+
+    .matrix-dot-label {
+      position: absolute;
+      background: #111827;
+      color: white;
+      padding: 6px 9px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+      transform: translate(-50%, -120%);
+      z-index: 6;
+    }
+
+    .matrix-axis-y {
+      position: absolute;
+      left: -62px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .matrix-axis-x {
+      text-align: center;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .matrix-note {
+      color: #6b7280;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* METHODOLOGY */
+
+    .methodology table {
+      min-width: 0;
+    }
+
+    .methodology th,
+    .methodology td {
+      padding: 12px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+      padding: 25px;
+    }
+
+    @media (max-width: 850px) {
+
+      .score-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .summary-strip {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 550px) {
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .score-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix {
+        height: 400px;
+      }
+
+      .matrix-axis-y {
+        left: -50px;
+        font-size: 10px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+
+  <div class="header-inner">
+
+    <div class="eyebrow">
+      AI Business Operations Toolkit
+    </div>
+
+    <h1>
+      AI Opportunity Portfolio Prioritizer
+    </h1>
+
+    <p class="subtitle">
+      Compare multiple AI opportunities using a consistent decision
+      framework and identify where leadership attention and investment
+      should be focused.
+    </p>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+
+  <!-- INPUT -->
+
+  <section class="card">
+
+    <h2>Build Your AI Opportunity Portfolio</h2>
+
+    <p class="card-description">
+      Enter up to seven AI opportunities and score each one from 1 to 5.
+      The tool will calculate a weighted score, rank the opportunities
+      and classify them according to their relative priority.
+    </p>
+
+    <div id="opportunities"></div>
+
+    <div class="button-row">
+
+      <button
+        class="add-button"
+        onclick="addOpportunity()"
+        id="addButton"
+      >
+        + Add Opportunity
+      </button>
+
+      <button
+        class="primary-button"
+        onclick="analyzePortfolio()"
+      >
+        Analyze Portfolio
+      </button>
+
+      <button
+        class="secondary-button"
+        onclick="resetPortfolio()"
+      >
+        Reset
+      </button>
+
+    </div>
+
+    <div
+      class="limit-message"
+      id="limitMessage"
+    >
+      1 opportunity added. You can add up to 7.
+    </div>
+
+  </section>
+
+
+  <!-- RESULTS -->
+
+  <section
+    class="card results"
+    id="results"
+  >
+
+    <h2>Executive Portfolio View</h2>
+
+    <div class="summary-strip">
+
+      <div class="summary-box">
+
+        <div
+          class="summary-number"
+          id="priorityCount"
+        >
+          0
+        </div>
+
+        <div class="summary-label">
+          Prioritize
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div
+          class="summary-number"
+          id="experimentCount"
+        >
+          0
+        </div>
+
+        <div class="summary-label">
+          Experiment
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div
+          class="summary-number"
+          id="deprioritizeCount"
+        >
+          0
+        </div>
+
+        <div class="summary-label">
+          De-prioritize
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Recommended Priority Order
+    </h3>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Rank</th>
+            <th>Opportunity</th>
+            <th>Score</th>
+            <th>Business Value</th>
+            <th>Feasibility</th>
+            <th>Recommendation</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="resultsBody"></tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- MATRIX -->
+
+    <div class="matrix-wrapper">
+
+      <h3>
+        AI Opportunity Portfolio Matrix
+      </h3>
+
+      <p class="card-description">
+        The matrix shows where opportunities sit based on Business Value
+        and Feasibility. The overall ranking also incorporates Time to
+        Value, Risk and Strategic Alignment.
+      </p>
+
+      <div
+        class="matrix"
+        id="matrix"
+      >
+
+        <div class="quadrant">
+          <h3>INVESTIGATE</h3>
+          <p>
+            High value but lower feasibility.
+            Validate capabilities and implementation barriers.
+          </p>
+        </div>
+
+        <div class="quadrant prioritize-zone">
+          <h3>PRIORITIZE</h3>
+          <p>
+            High value and high feasibility.
+            Strong candidates for investment and pilots.
+          </p>
+        </div>
+
+        <div class="quadrant">
+          <h3>DE-PRIORITIZE</h3>
+          <p>
+            Lower value and lower feasibility.
+            Revisit if circumstances change.
+          </p>
+        </div>
+
+        <div class="quadrant">
+          <h3>EXPERIMENT</h3>
+          <p>
+            Lower value but relatively feasible.
+            Suitable for controlled experimentation.
+          </p>
+        </div>
+
+        <div class="matrix-axis-y">
+          BUSINESS VALUE → LOW TO HIGH
+        </div>
+
+      </div>
+
+      <div class="matrix-axis-x">
+        FEASIBILITY → LOW TO HIGH
+      </div>
+
+      <p class="matrix-note">
+        The portfolio matrix is a decision-support visualization and
+        should be considered alongside detailed financial, technology,
+        regulatory and risk analysis.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- METHODOLOGY -->
+
+  <section class="card methodology">
+
+    <h2>
+      Scoring Methodology
+    </h2>
+
+    <p class="card-description">
+      Each opportunity is scored from 1 to 5 across five dimensions.
+      The dimensions are weighted to produce a portfolio score from 0 to 100.
+    </p>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Dimension</th>
+          <th>Weight</th>
+          <th>What it considers</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>Business Value</td>
+          <td>30%</td>
+          <td>
+            Potential impact on revenue, cost, productivity,
+            customer experience or business outcomes.
+          </td>
+        </tr>
+
+        <tr>
+          <td>Feasibility</td>
+          <td>20%</td>
+          <td>
+            Data, technology, skills and organizational readiness.
+          </td>
+        </tr>
+
+        <tr>
+          <td>Time to Value</td>
+          <td>20%</td>
+          <td>
+            How quickly meaningful benefits could realistically be achieved.
+          </td>
+        </tr>
+
+        <tr>
+          <td>Risk</td>
+          <td>15%</td>
+          <td>
+            Business, regulatory, privacy, security and reputational risk.
+          </td>
+        </tr>
+
+        <tr>
+          <td>Strategic Alignment</td>
+          <td>15%</td>
+          <td>
+            Alignment with important business and strategic priorities.
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <strong>Total</strong>
+          </td>
+          <td>
+            <strong>100%</strong>
+          </td>
+          <td></td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+
+    <h3>
+      Decision Thresholds
+    </h3>
+
+    <table>
+
+      <tbody>
+
+        <tr>
+          <td><strong>80–100</strong></td>
+          <td>PRIORITIZE</td>
+          <td>
+            Strong candidate for investment, discovery or pilot planning.
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>65–79</strong></td>
+          <td>EXPERIMENT</td>
+          <td>
+            Promising opportunity suitable for controlled experimentation.
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>50–64</strong></td>
+          <td>INVESTIGATE</td>
+          <td>
+            Further validation recommended before major investment.
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>0–49</strong></td>
+          <td>DE-PRIORITIZE</td>
+          <td>
+            Not currently a priority based on the assessment.
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+
+  <!-- PRIVACY -->
+
+  <section class="card">
+
+    <h2>
+      About This Tool
+    </h2>
+
+    <p class="card-description">
+      This tool is designed as an independent professional portfolio
+      project. It does not require company-specific information and
+      does not transmit assessment data to a server.
+    </p>
+
+    <p class="card-description">
+      Use illustrative or non-confidential opportunity descriptions.
+      The framework is intended as decision support rather than a
+      substitute for detailed financial, technology, legal, regulatory
+      or risk analysis.
+    </p>
+
+  </section>
+
+
+</main>
+
+
+<footer class="footer">
+
+  AI Business Operations Toolkit • Independent Professional Portfolio
+
+</footer>
+
+
+<script>
+
+  let opportunityCount = 0;
+
+
+  function addOpportunity() {
+
+    if (opportunityCount >= 7) {
+      return;
+    }
+
+    opportunityCount++;
+
+    const container =
+      document.getElementById("opportunities");
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "opportunity-card";
+
+    card.id =
+      "opportunity-" + opportunityCount;
+
+
+    card.innerHTML = `
+
+      <div class="opportunity-header">
+
+        <div class="opportunity-number">
+          Opportunity ${opportunityCount}
+        </div>
+
+        <button
+          class="remove-button"
+          onclick="removeOpportunity(${opportunityCount})"
+        >
+          Remove
+        </button>
+
+      </div>
+
+
+      <div class="opportunity-name">
+
+        <label>
+          AI Opportunity
+        </label>
+
+        <input
+          type="text"
+          class="use-case"
+          placeholder="Example: Customer service AI assistant"
+        >
+
+      </div>
+
+
+      <div class="score-grid">
+
+        <div>
+
+          <label class="score-label">
+            Business Value<br>
+            30%
+          </label>
+
+          <select class="value">
+
+            <option value="1">1 — Very Low</option>
+            <option value="2">2 — Low</option>
+            <option value="3" selected>3 — Medium</option>
+            <option value="4">4 — High</option>
+            <option value="5">5 — Very High</option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label class="score-label">
+            Feasibility<br>
+            20%
+          </label>
+
+          <select class="feasibility">
+
+            <option value="1">1 — Very Difficult</option>
+            <option value="2">2 — Difficult</option>
+            <option value="3" selected>3 — Moderate</option>
+            <option value="4">4 — Easy</option>
+            <option value="5">5 — Very Easy</option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label class="score-label">
+            Time to Value<br>
+            20%
+          </label>
+
+          <select class="time">
+
+            <option value="1">1 — More than 18 months</option>
+            <option value="2">2 — 12–18 months</option>
+            <option value="3" selected>3 — 6–12 months</option>
+            <option value="4">4 — 3–6 months</option>
+            <option value="5">5 — Less than 3 months</option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label class="score-label">
+            Risk<br>
+            15%
+          </label>
+
+          <select class="risk">
+
+            <option value="1">1 — Very High Risk</option>
+            <option value="2">2 — High Risk</option>
+            <option value="3" selected>3 — Moderate Risk</option>
+            <option value="4">4 — Low Risk</option>
+            <option value="5">5 — Very Low Risk</option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label class="score-label">
+            Strategic Alignment<br>
+            15%
+          </label>
+
+          <select class="alignment">
+
+            <option value="1">1 — Very Low</option>
+            <option value="2">2 — Low</option>
+            <option value="3" selected>3 — Medium</option>
+            <option value="4">4 — High</option>
+            <option value="5">5 — Very High</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    container.appendChild(card);
+
+    updateLimitMessage();
+
+  }
+
+
+  function removeOpportunity(id) {
+
+    const card =
+      document.getElementById("opportunity-" + id);
+
+    if (card) {
+      card.remove();
+    }
+
+    updateLimitMessage();
+
+  }
+
+
+  function updateLimitMessage() {
+
+    const current =
+      document.querySelectorAll(".opportunity-card").length;
+
+    const message =
+      document.getElementById("limitMessage");
+
+    const button =
+      document.getElementById("addButton");
+
+    message.textContent =
+      current +
+      " opportunit" +
+      (current === 1 ? "y" : "ies") +
+      " added. You can add up to 7.";
+
+    button.disabled =
+      current >= 7;
+
+    button.style.opacity =
+      current >= 7 ? "0.5" : "1";
+
+  }
+
+
+  function analyzePortfolio() {
+
+    const cards =
+      document.querySelectorAll(".opportunity-card");
+
+    if (cards.length < 2) {
+
+      alert(
+        "Please enter at least 2 AI opportunities before analyzing the portfolio."
+      );
+
+      return;
+    }
+
+
+    const opportunities = [];
+
+
+    cards.forEach(card => {
+
+      const name =
+        card.querySelector(".use-case").value.trim()
+        || "Unnamed opportunity";
+
+      const value =
+        Number(card.querySelector(".value").value);
+
+      const feasibility =
+        Number(card.querySelector(".feasibility").value);
+
+      const time =
+        Number(card.querySelector(".time").value);
+
+      const risk =
+        Number(card.querySelector(".risk").value);
+
+      const alignment =
+        Number(card.querySelector(".alignment").value);
+
+
+      const weightedScore =
+          (value * 0.30)
+        + (feasibility * 0.20)
+        + (time * 0.20)
+        + (risk * 0.15)
+        + (alignment * 0.15);
+
+
+      const score =
+        Math.round((weightedScore / 5) * 100);
+
+
+      let recommendation;
+      let cssClass;
+
+
+      if (score >= 80) {
+
+        recommendation =
+          "PRIORITIZE";
+
+        cssClass =
+          "prioritize";
+
+      } else if (score >= 65) {
+
+        recommendation =
+          "EXPERIMENT";
+
+        cssClass =
+          "experiment";
+
+      } else if (score >= 50) {
+
+        recommendation =
+          "INVESTIGATE";
+
+        cssClass =
+          "investigate";
+
+      } else {
+
+        recommendation =
+          "DE-PRIORITIZE";
+
+        cssClass =
+          "deprioritize";
+
+      }
+
+
+      opportunities.push({
+
+        name,
+        value,
+        feasibility,
+        time,
+        risk,
+        alignment,
+        score,
+        recommendation,
+        cssClass
+
+      });
+
+    });
+
+
+    opportunities.sort(
+      (a, b) => b.score - a.score
+    );
+
+
+    displayResults(opportunities);
+
+  }
+
+
+  function displayResults(opportunities) {
+
+    const body =
+      document.getElementById("resultsBody");
+
+    body.innerHTML = "";
+
+
+    let prioritize = 0;
+    let experiment = 0;
+    let deprioritize = 0;
+
+
+    opportunities.forEach((opportunity, index) => {
+
+      if (opportunity.recommendation === "PRIORITIZE")
+        prioritize++;
+
+      if (opportunity.recommendation === "EXPERIMENT")
+        experiment++;
+
+      if (opportunity.recommendation === "DE-PRIORITIZE")
+        deprioritize++;
+
+
+      const row =
+        document.createElement("tr");
+
+
+      row.innerHTML = `
+
+        <td class="rank">
+          #${index + 1}
+        </td>
+
+        <td>
+          <strong>
+            ${escapeHtml(opportunity.name)}
+          </strong>
+        </td>
+
+        <td>
+          <span class="score-number">
+            ${opportunity.score}
+          </span>
+        </td>
+
+        <td>
+          ${opportunity.value} / 5
+        </td>
+
+        <td>
+          ${opportunity.feasibility} / 5
+        </td>
+
+        <td>
+          <span class="recommendation ${opportunity.cssClass}">
+            ${opportunity.recommendation}
+          </span>
+        </td>
+
+      `;
+
+
+      body.appendChild(row);
+
+    });
+
+
+    document.getElementById("priorityCount").textContent =
+      prioritize;
+
+    document.getElementById("experimentCount").textContent =
+      experiment;
+
+    document.getElementById("deprioritizeCount").textContent =
+      deprioritize;
+
+
+    document.getElementById("results").style.display =
+      "block";
+
+
+    drawMatrix(opportunities);
+
+
+    document.getElementById("results").scrollIntoView({
+      behavior: "smooth"
+    });
+
+  }
+
+
+  function drawMatrix(opportunities) {
+
+    const matrix =
+      document.getElementById("matrix");
+
+
+    matrix
+      .querySelectorAll(".matrix-dot, .matrix-dot-label")
+      .forEach(element => element.remove());
+
+
+    opportunities.forEach(opportunity => {
+
+      const x =
+        ((opportunity.feasibility - 1) / 4) * 100;
+
+      const y =
+        ((opportunity.value - 1) / 4) * 100;
+
+      const top =
+        100 - y;
+
+
+      const dot =
+        document.createElement("div");
+
+      dot.className =
+        "matrix-dot";
+
+      dot.style.left =
+        x + "%";
+
+      dot.style.top =
+        top + "%";
+
+
+      const label =
+        document.createElement("div");
+
+      label.className =
+        "matrix-dot-label";
+
+      label.style.left =
+        x + "%";
+
+      label.style.top =
+        top + "%";
+
+      label.textContent =
+        opportunity.name;
+
+
+      matrix.appendChild(dot);
+
+      matrix.appendChild(label);
+
+    });
+
+  }
+
+
+  function escapeHtml(text) {
+
+    const div =
+      document.createElement("div");
+
+    div.textContent =
+      text;
+
+    return div.innerHTML;
+
+  }
+
+
+  function resetPortfolio() {
+
+    document.getElementById("opportunities").innerHTML =
+      "";
+
+    document.getElementById("results").style.display =
+      "none";
+
+    opportunityCount = 0;
+
+    updateLimitMessage();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+
+    addOpportunity();
+
+  }
+
+
+  /* Start with one opportunity */
+
+  addOpportunity();
+
+</script>
+
+</body>
+</html>
+```
