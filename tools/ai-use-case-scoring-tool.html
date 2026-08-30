@@ -1,13 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AI Use-Case Scoring Tool</title>
+  <title>AI Opportunity Assessment Tool</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -47,7 +47,7 @@
 
     .subtitle {
       margin-top: 12px;
-      max-width: 750px;
+      max-width: 800px;
       font-size: 17px;
       line-height: 1.6;
       opacity: 0.85;
@@ -274,10 +274,6 @@
       line-height: 1.7;
     }
 
-    /*
-      PORTFOLIO MATRIX
-    */
-
     .matrix-wrapper {
       margin-top: 25px;
     }
@@ -362,10 +358,6 @@
       left: 5px;
     }
 
-    /*
-      The plotted opportunity
-    */
-
     .opportunity-dot {
       display: none;
       position: absolute;
@@ -402,10 +394,6 @@
       line-height: 1.5;
     }
 
-    /*
-      METHODOLOGY
-    */
-
     .methodology table {
       width: 100%;
       border-collapse: collapse;
@@ -440,7 +428,6 @@
     }
 
     @media (max-width: 800px) {
-
       .result-header,
       .insights {
         grid-template-columns: 1fr;
@@ -457,11 +444,9 @@
       h1 {
         font-size: 28px;
       }
-
     }
 
     @media (max-width: 500px) {
-
       .dimensions {
         grid-template-columns: 1fr;
       }
@@ -482,738 +467,675 @@
       .card {
         padding: 20px;
       }
-
     }
-
   </style>
-</head>
 
+</head>
 
 <body>
 
 <header class="header">
-
   <div class="header-inner">
 
-    <div class="eyebrow">
-      Business Operations • AI Transformation
-    </div>
+```
+<div class="eyebrow">
+  Business Operations • AI Transformation
+</div>
 
-    <h1>AI Use-Case Scoring Tool</h1>
+<h1>AI Opportunity Assessment Tool</h1>
 
-    <p class="subtitle">
-      A practical decision-support tool for evaluating and prioritizing
-      potential AI opportunities based on business value, feasibility,
-      time to value, risk and strategic alignment.
-    </p>
+<p class="subtitle">
+  A practical decision-support tool for evaluating the attractiveness
+  of potential AI opportunities based on business value, strategic
+  alignment, feasibility, time to value and risk manageability.
+</p>
+```
 
   </div>
-
 </header>
 
-
 <main class="container">
-
 
   <!-- INPUT -->
 
   <section class="card">
 
-    <h2>Assess an AI Opportunity</h2>
+```
+<h2>Assess an AI Opportunity</h2>
 
-    <p class="card-description">
-      Score each dimension from 1 to 5. The tool converts the assessment
-      into a weighted priority score from 0–100 and positions the
-      opportunity on an AI portfolio matrix.
-    </p>
+<p class="card-description">
+  Score each dimension from 1 to 5. The tool converts the assessment
+  into an Opportunity Attractiveness Score from 0–100 and positions
+  the opportunity on an AI portfolio matrix.
+</p>
 
+<label for="useCase">
+  AI Use Case
+</label>
 
-    <label for="useCase">
-      AI Use Case
-    </label>
+<input
+  type="text"
+  id="useCase"
+  placeholder="Example: Management reporting assistant"
+/>
 
-    <input
-      type="text"
-      id="useCase"
-      placeholder="Example: Management reporting assistant"
-    />
+<label for="value">
 
+  Business Value
 
-    <label for="value">
+  <div class="label-description">
+    Potential impact on revenue, cost, productivity, experience,
+    risk or competitive advantage.
+  </div>
 
-      Business Value
+</label>
 
-      <div class="label-description">
-        Potential impact on revenue, cost, productivity, experience or risk.
-      </div>
+<select id="value">
+  <option value="1">1 — Very Low</option>
+  <option value="2">2 — Low</option>
+  <option value="3" selected>3 — Medium</option>
+  <option value="4">4 — High</option>
+  <option value="5">5 — Very High</option>
+</select>
 
-    </label>
+<label for="alignment">
 
-    <select id="value">
+  Strategic Alignment
 
-      <option value="1">1 — Very Low</option>
-      <option value="2">2 — Low</option>
-      <option value="3" selected>3 — Medium</option>
-      <option value="4">4 — High</option>
-      <option value="5">5 — Very High</option>
+  <div class="label-description">
+    Alignment with important business and strategic priorities.
+  </div>
 
-    </select>
+</label>
 
+<select id="alignment">
+  <option value="1">1 — Very Low</option>
+  <option value="2">2 — Low</option>
+  <option value="3" selected>3 — Medium</option>
+  <option value="4">4 — High</option>
+  <option value="5">5 — Very High</option>
+</select>
 
-    <label for="feasibility">
+<label for="feasibility">
 
-      Feasibility
+  Feasibility
 
-      <div class="label-description">
-        Practicality considering data, technology, skills and organizational readiness.
-      </div>
+  <div class="label-description">
+    Practicality considering data, technology, skills,
+    process maturity and organizational readiness.
+  </div>
 
-    </label>
+</label>
 
-    <select id="feasibility">
+<select id="feasibility">
+  <option value="1">1 — Very Difficult</option>
+  <option value="2">2 — Difficult</option>
+  <option value="3" selected>3 — Moderate</option>
+  <option value="4">4 — Easy</option>
+  <option value="5">5 — Very Easy</option>
+</select>
 
-      <option value="1">1 — Very Difficult</option>
-      <option value="2">2 — Difficult</option>
-      <option value="3" selected>3 — Moderate</option>
-      <option value="4">4 — Easy</option>
-      <option value="5">5 — Very Easy</option>
+<label for="time">
 
-    </select>
+  Time to Value
 
+  <div class="label-description">
+    How quickly meaningful business benefits could realistically
+    be achieved.
+  </div>
 
-    <label for="time">
+</label>
 
-      Time to Value
+<select id="time">
+  <option value="1">1 — More than 24 months</option>
+  <option value="2">2 — 12–24 months</option>
+  <option value="3" selected>3 — 6–12 months</option>
+  <option value="4">4 — 3–6 months</option>
+  <option value="5">5 — Less than 3 months</option>
+</select>
 
-      <div class="label-description">
-        How quickly meaningful benefits could realistically be achieved.
-      </div>
+<label for="risk">
 
-    </label>
+  Risk Manageability
 
-    <select id="time">
+  <div class="label-description">
+    How manageable the business, regulatory, privacy, security,
+    accuracy and reputational risks are.
+  </div>
 
-      <option value="1">1 — More than 18 months</option>
-      <option value="2">2 — 12–18 months</option>
-      <option value="3" selected>3 — 6–12 months</option>
-      <option value="4">4 — 3–6 months</option>
-      <option value="5">5 — Less than 3 months</option>
+</label>
 
-    </select>
+<select id="risk">
+  <option value="1">1 — Very Difficult to Manage</option>
+  <option value="2">2 — Difficult to Manage</option>
+  <option value="3" selected>3 — Manageable</option>
+  <option value="4">4 — Easy to Manage</option>
+  <option value="5">5 — Very Easy to Manage</option>
+</select>
 
+<div class="button-row">
 
-    <label for="risk">
+  <button
+    class="primary-button"
+    onclick="calculateScore()"
+  >
+    Calculate Opportunity Score
+  </button>
 
-      Risk
+  <button
+    class="secondary-button"
+    onclick="resetTool()"
+  >
+    Reset
+  </button>
 
-      <div class="label-description">
-        Overall business, regulatory, privacy, security and reputational risk.
-      </div>
-
-    </label>
-
-    <select id="risk">
-
-      <option value="1">1 — Very High Risk</option>
-      <option value="2">2 — High Risk</option>
-      <option value="3" selected>3 — Moderate Risk</option>
-      <option value="4">4 — Low Risk</option>
-      <option value="5">5 — Very Low Risk</option>
-
-    </select>
-
-
-    <label for="alignment">
-
-      Strategic Alignment
-
-      <div class="label-description">
-        Alignment with important business and strategic priorities.
-      </div>
-
-    </label>
-
-    <select id="alignment">
-
-      <option value="1">1 — Very Low</option>
-      <option value="2">2 — Low</option>
-      <option value="3" selected>3 — Medium</option>
-      <option value="4">4 — High</option>
-      <option value="5">5 — Very High</option>
-
-    </select>
-
-
-    <div class="button-row">
-
-      <button
-        class="primary-button"
-        onclick="calculateScore()"
-      >
-        Calculate Opportunity Score
-      </button>
-
-      <button
-        class="secondary-button"
-        onclick="resetTool()"
-      >
-        Reset
-      </button>
-
-    </div>
+</div>
+```
 
   </section>
-
 
   <!-- RESULTS -->
 
   <section class="card result" id="result">
 
-    <h2>Executive Assessment</h2>
+```
+<h2>Executive Assessment</h2>
 
+<div class="result-header">
 
-    <div class="result-header">
+  <div class="score-card">
 
-      <div class="score-card">
-
-        <div class="score-label">
-          Opportunity Attractiveness Score
-        </div>
-
-        <div class="score" id="score">
-          0
-        </div>
-
-        <div>
-          out of 100
-        </div>
-
-      </div>
-
-
-      <div class="recommendation-card">
-
-        <div class="recommendation-label">
-          Recommended Action
-        </div>
-
-        <div
-          class="recommendation"
-          id="recommendation"
-        >
-          —
-        </div>
-
-        <div
-          class="use-case-title"
-          id="resultUseCase"
-        >
-          —
-        </div>
-
-      </div>
-
+    <div class="score-label">
+      Opportunity Attractiveness Score
     </div>
 
-
-    <!-- SCORE BREAKDOWN -->
-
-    <h3>Score Breakdown</h3>
-
-
-    <div class="dimensions">
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Business Value<br>
-          <small>40%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="valueScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="valueBar"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Feasibility<br>
-          <small>15%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="feasibilityScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="feasibilityBar"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Time to Value<br>
-          <small>15%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="timeScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="timeBar"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Risk<br>
-          <small>15%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="riskScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="riskBar"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Strategic Alignment<br>
-          <small>15%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="alignmentScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="alignmentBar"
-          ></div>
-
-        </div>
-
-      </div>
-
+    <div class="score" id="score">
+      0
     </div>
 
+    <div>
+      out of 100
+    </div>
 
-    <!-- EXECUTIVE SUMMARY -->
+  </div>
 
-    <div class="executive-summary">
+  <div class="recommendation-card">
 
-      <strong>Executive Recommendation</strong>
+    <div class="recommendation-label">
+      Recommended Action
+    </div>
 
-      <p id="summary">
-        —
+    <div
+      class="recommendation"
+      id="recommendation"
+    >
+      —
+    </div>
+
+    <div
+      class="use-case-title"
+      id="resultUseCase"
+    >
+      —
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- SCORE BREAKDOWN -->
+
+<h3>Score Breakdown</h3>
+
+<div class="dimensions">
+
+  <div class="dimension">
+    <div class="dimension-name">
+      Business Value<br>
+      <small>40%</small>
+    </div>
+
+    <div class="dimension-score" id="valueScore">
+      —
+    </div>
+
+    <div class="bar-container">
+      <div class="bar" id="valueBar"></div>
+    </div>
+  </div>
+
+
+  <div class="dimension">
+    <div class="dimension-name">
+      Strategic Alignment<br>
+      <small>15%</small>
+    </div>
+
+    <div class="dimension-score" id="alignmentScore">
+      —
+    </div>
+
+    <div class="bar-container">
+      <div class="bar" id="alignmentBar"></div>
+    </div>
+  </div>
+
+
+  <div class="dimension">
+    <div class="dimension-name">
+      Feasibility<br>
+      <small>15%</small>
+    </div>
+
+    <div class="dimension-score" id="feasibilityScore">
+      —
+    </div>
+
+    <div class="bar-container">
+      <div class="bar" id="feasibilityBar"></div>
+    </div>
+  </div>
+
+
+  <div class="dimension">
+    <div class="dimension-name">
+      Time to Value<br>
+      <small>15%</small>
+    </div>
+
+    <div class="dimension-score" id="timeScore">
+      —
+    </div>
+
+    <div class="bar-container">
+      <div class="bar" id="timeBar"></div>
+    </div>
+  </div>
+
+
+  <div class="dimension">
+    <div class="dimension-name">
+      Risk Manageability<br>
+      <small>15%</small>
+    </div>
+
+    <div class="dimension-score" id="riskScore">
+      —
+    </div>
+
+    <div class="bar-container">
+      <div class="bar" id="riskBar"></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- EXECUTIVE SUMMARY -->
+
+<div class="executive-summary">
+
+  <strong>Executive Recommendation</strong>
+
+  <p id="summary">
+    —
+  </p>
+
+</div>
+
+
+<!-- STRENGTHS -->
+
+<div class="insights">
+
+  <div class="insight">
+
+    <h3>Key Strengths</h3>
+
+    <ul id="strengths"></ul>
+
+  </div>
+
+
+  <div class="insight">
+
+    <h3>Key Considerations</h3>
+
+    <ul id="considerations"></ul>
+
+  </div>
+
+</div>
+
+
+<!-- PORTFOLIO MATRIX -->
+
+<div class="matrix-wrapper">
+
+  <h3>AI Opportunity Portfolio Matrix</h3>
+
+  <p class="card-description">
+
+    The matrix positions the opportunity using Business Value
+    and Feasibility. It provides a portfolio view alongside
+    the Opportunity Attractiveness Score.
+
+  </p>
+
+  <div class="matrix" id="matrix">
+
+    <div class="quadrant investigate">
+
+      <h3>INVESTIGATE</h3>
+
+      <p>
+        High potential value but lower feasibility.
+        Further analysis, capability building or experimentation
+        may be required.
       </p>
 
     </div>
 
 
-    <!-- STRENGTHS -->
+    <div class="quadrant prioritize">
 
-    <div class="insights">
+      <h3>PRIORITIZE</h3>
 
-
-      <div class="insight">
-
-        <h3>Key Strengths</h3>
-
-        <ul id="strengths"></ul>
-
-      </div>
-
-
-      <div class="insight">
-
-        <h3>Key Considerations</h3>
-
-        <ul id="considerations"></ul>
-
-      </div>
-
-
-    </div>
-
-
-    <!-- PORTFOLIO MATRIX -->
-
-    <div class="matrix-wrapper">
-
-      <h3>AI Opportunity Portfolio Matrix</h3>
-
-      <p class="card-description">
-
-        The matrix positions the opportunity using Business Value
-        and Feasibility. It provides a portfolio view alongside
-        the weighted overall score.
-
-      </p>
-
-
-      <div class="matrix" id="matrix">
-
-
-        <!-- TOP LEFT -->
-
-        <div class="quadrant investigate">
-
-          <h3>INVESTIGATE</h3>
-
-          <p>
-            High potential value but lower feasibility.
-            Further analysis, capability building or experimentation
-            may be required.
-          </p>
-
-        </div>
-
-
-        <!-- TOP RIGHT -->
-
-        <div class="quadrant prioritize">
-
-          <h3>PRIORITIZE</h3>
-
-          <p>
-            High value and high feasibility.
-            Strong candidates for pilots and investment.
-          </p>
-
-        </div>
-
-
-        <!-- BOTTOM LEFT -->
-
-        <div class="quadrant defer">
-
-          <h3>DEFER</h3>
-
-          <p>
-            Lower value and lower feasibility.
-            Consider revisiting when circumstances change.
-          </p>
-
-        </div>
-
-
-        <!-- BOTTOM RIGHT -->
-
-        <div class="quadrant experiment">
-
-          <h3>EXPERIMENT</h3>
-
-          <p>
-            Lower value but relatively easy to implement.
-            Suitable for low-cost experimentation.
-          </p>
-
-        </div>
-
-
-        <!-- OPPORTUNITY DOT -->
-
-        <div
-          class="opportunity-dot"
-          id="opportunityDot"
-        ></div>
-
-
-        <div
-          class="opportunity-label"
-          id="opportunityLabel"
-        ></div>
-
-
-        <div class="axis-y">
-          BUSINESS VALUE
-        </div>
-
-
-        <div class="high-label">
-          HIGH
-        </div>
-
-
-        <div class="low-label">
-          LOW
-        </div>
-
-      </div>
-
-
-      <div class="axis-x">
-        FEASIBILITY → LOW to HIGH
-      </div>
-
-
-      <p class="matrix-note">
-
-        The matrix is a decision-support visualization.
-        It should be considered alongside detailed financial,
-        technology, regulatory and risk analysis.
-
+      <p>
+        High value and high feasibility.
+        Strong candidates for pilots and investment.
       </p>
 
     </div>
 
+
+    <div class="quadrant defer">
+
+      <h3>DE-PRIORITIZE</h3>
+
+      <p>
+        Lower value and lower feasibility.
+        Consider revisiting when circumstances change.
+      </p>
+
+    </div>
+
+
+    <div class="quadrant experiment">
+
+      <h3>EXPERIMENT</h3>
+
+      <p>
+        Lower value but relatively easy to implement.
+        Suitable for low-cost experimentation.
+      </p>
+
+    </div>
+
+
+    <div
+      class="opportunity-dot"
+      id="opportunityDot"
+    ></div>
+
+
+    <div
+      class="opportunity-label"
+      id="opportunityLabel"
+    ></div>
+
+
+    <div class="axis-y">
+      BUSINESS VALUE
+    </div>
+
+
+    <div class="high-label">
+      HIGH
+    </div>
+
+
+    <div class="low-label">
+      LOW
+    </div>
+
+  </div>
+
+
+  <div class="axis-x">
+    FEASIBILITY → LOW to HIGH
+  </div>
+
+
+  <p class="matrix-note">
+
+    The matrix is a decision-support visualization.
+    It should be considered alongside detailed financial,
+    technology, regulatory and risk analysis.
+
+  </p>
+
+</div>
+```
 
   </section>
-
 
   <!-- METHODOLOGY -->
 
   <section class="card methodology">
 
-    <h2>Scoring Methodology</h2>
+```
+<h2>Scoring Methodology</h2>
 
-    <p class="card-description">
+<p class="card-description">
 
-      The tool uses a weighted scoring model to provide a consistent
-      framework for comparing potential AI opportunities.
+  The tool uses a weighted scoring model to provide a consistent
+  framework for comparing the attractiveness of potential AI
+  opportunities.
 
-    </p>
-
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>Dimension</th>
-          <th>Weight</th>
-          <th>What it considers</th>
-
-        </tr>
-
-      </thead>
+</p>
 
 
-      <tbody>
+<table>
 
-        <tr>
+  <thead>
 
-          <td>Business Value</td>
-          <td>40%</td>
-          <td>
-            Revenue, cost, productivity, experience and risk impact.
-          </td>
+    <tr>
+      <th>Dimension</th>
+      <th>Weight</th>
+      <th>What it considers</th>
+    </tr>
 
-        </tr>
-
-
-        <tr>
-
-          <td>Feasibility</td>
-          <td>15%</td>
-          <td>
-            Data, technology, skills and organizational readiness.
-          </td>
-
-        </tr>
+  </thead>
 
 
-        <tr>
+  <tbody>
 
-          <td>Time to Value</td>
-          <td>15%</td>
-          <td>
-            Expected speed of realizing meaningful benefits.
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td>Risk</td>
-          <td>15%</td>
-          <td>
-            Business, regulatory, privacy, security and reputational risk.
-          </td>
-
-        </tr>
+    <tr>
+      <td>Business Value</td>
+      <td>40%</td>
+      <td>
+        Revenue, cost, productivity, experience,
+        risk and competitive impact.
+      </td>
+    </tr>
 
 
-        <tr>
-
-          <td>Strategic Alignment</td>
-          <td>15%</td>
-          <td>
-            Alignment with business strategy and priorities.
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
+    <tr>
+      <td>Strategic Alignment</td>
+      <td>15%</td>
+      <td>
+        Alignment with business strategy and strategic priorities.
+      </td>
+    </tr>
 
 
-    <h3>Decision Thresholds</h3>
+    <tr>
+      <td>Feasibility</td>
+      <td>15%</td>
+      <td>
+        Data, technology, skills, process maturity
+        and organizational readiness.
+      </td>
+    </tr>
 
 
-    <table>
-
-      <tbody>
-
-        <tr>
-
-          <td><strong>80–100</strong></td>
-
-          <td>PRIORITIZE</td>
-
-          <td>
-            Strong candidate for detailed discovery or pilot planning.
-          </td>
-
-        </tr>
+    <tr>
+      <td>Time to Value</td>
+      <td>15%</td>
+      <td>
+        Expected speed of realizing meaningful business benefits.
+      </td>
+    </tr>
 
 
-        <tr>
+    <tr>
+      <td>Risk Manageability</td>
+      <td>15%</td>
+      <td>
+        Business, regulatory, privacy, security,
+        accuracy and reputational risk.
+      </td>
+    </tr>
 
-          <td><strong>65–79</strong></td>
+  </tbody>
 
-          <td>EXPERIMENT</td>
-
-          <td>
-            Promising opportunity suitable for controlled experimentation.
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td><strong>50–64</strong></td>
-
-          <td>INVESTIGATE</td>
-
-          <td>
-            Further evidence and analysis recommended.
-          </td>
-
-        </tr>
+</table>
 
 
-        <tr>
+<h3>Opportunity Attractiveness Calculation</h3>
 
-          <td><strong>0–49</strong></td>
+<p class="card-description">
 
-          <td>DEFER</td>
+  <strong>
+    Opportunity Attractiveness =
+    (Business Value × 40%) +
+    (Strategic Alignment × 15%) +
+    (Feasibility × 15%) +
+    (Time to Value × 15%) +
+    (Risk Manageability × 15%)
+  </strong>
 
-          <td>
-            Not currently a priority based on the assessment.
-          </td>
+</p>
 
-        </tr>
+<p class="card-description">
 
-      </tbody>
+  The resulting score is normalized to a 0–100 scale.
+  It measures the attractiveness of the opportunity before
+  detailed financial analysis.
 
-    </table>
+</p>
+
+
+<h3>Decision Thresholds</h3>
+
+
+<table>
+
+  <tbody>
+
+    <tr>
+      <td><strong>80–100</strong></td>
+      <td>PRIORITIZE</td>
+      <td>
+        Strong candidate for detailed discovery,
+        business-case development or pilot planning.
+      </td>
+    </tr>
+
+
+    <tr>
+      <td><strong>65–79</strong></td>
+      <td>EXPERIMENT</td>
+      <td>
+        Promising opportunity suitable for controlled
+        experimentation and evidence gathering.
+      </td>
+    </tr>
+
+
+    <tr>
+      <td><strong>50–64</strong></td>
+      <td>INVESTIGATE</td>
+      <td>
+        Further evidence and analysis recommended before
+        committing significant resources.
+      </td>
+    </tr>
+
+
+    <tr>
+      <td><strong>0–49</strong></td>
+      <td>DE-PRIORITIZE</td>
+      <td>
+        Not currently a priority relative to competing
+        opportunities.
+      </td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+
+<h3>Evidence Before Investment</h3>
+
+<p class="card-description">
+
+  Probability of success is not treated as a separate weighted
+  scoring dimension. Instead, confidence should be established
+  through evidence.
+
+</p>
+
+<p class="card-description">
+
+  Before significant investment, leadership should validate
+  assumptions around technology, data, user adoption, measurable
+  outcomes and implementation feasibility.
+
+</p>
+```
 
   </section>
-
 
   <!-- ABOUT -->
 
   <section class="card">
 
-    <h2>About This Tool</h2>
+```
+<h2>About This Tool</h2>
 
-    <p class="disclaimer">
+<p class="disclaimer">
 
-      This is an independently developed professional portfolio project.
-      The tool is intended as a decision-support framework rather than
-      a substitute for detailed financial, technology, legal, regulatory
-      or risk analysis.
+  This is an independently developed professional portfolio project.
+  The tool is intended as a decision-support framework rather than
+  a substitute for detailed financial, technology, legal, regulatory
+  or risk analysis.
 
-      <br><br>
+  <br><br>
 
-      All examples are illustrative. No confidential, proprietary,
-      commercially sensitive or employer-specific information is used,
-      collected or stored by this tool.
+  All examples are illustrative. No confidential, proprietary,
+  commercially sensitive or employer-specific information is used,
+  collected or stored by this tool.
 
-    </p>
+</p>
+```
 
   </section>
 
-
 </main>
-
 
 <footer>
 
-  AI Use-Case Scoring Tool • Independent Professional Portfolio
+AI Opportunity Assessment Tool • Independent Professional Portfolio
 
 </footer>
 
-
 <script>
 
-
 function calculateScore() {
-
 
   const useCase =
     document.getElementById("useCase").value.trim()
@@ -1222,6 +1144,10 @@ function calculateScore() {
 
   const value =
     Number(document.getElementById("value").value);
+
+
+  const alignment =
+    Number(document.getElementById("alignment").value);
 
 
   const feasibility =
@@ -1236,27 +1162,22 @@ function calculateScore() {
     Number(document.getElementById("risk").value);
 
 
-  const alignment =
-    Number(document.getElementById("alignment").value);
-
-
   /*
-    WEIGHTED SCORE
+    OPPORTUNITY ATTRACTIVENESS SCORE
 
     Business Value       40%
+    Strategic Alignment  15%
     Feasibility          15%
     Time to Value        15%
-    Risk                 15%
-    Strategic Alignment  15%
+    Risk Manageability   15%
   */
-
 
   const weightedScore =
       (value * 0.40)
+    + (alignment * 0.15)
     + (feasibility * 0.15)
     + (time * 0.15)
-    + (risk * 0.15)
-    + (alignment * 0.15);
+    + (risk * 0.15);
 
 
   const percentage =
@@ -1272,13 +1193,12 @@ function calculateScore() {
     recommendation = "PRIORITIZE";
 
     summary =
-      "This opportunity demonstrates strong overall potential. " +
-      "The recommended next step is detailed discovery or a " +
-      "controlled pilot with clear success measures, ownership " +
-      "and appropriate risk controls.";
+      "This opportunity demonstrates strong overall attractiveness. " +
+      "The recommended next step is detailed discovery, business-case " +
+      "development or a controlled pilot with clear success measures, " +
+      "ownership and appropriate risk controls.";
 
   }
-
 
   else if (percentage >= 65) {
 
@@ -1287,10 +1207,10 @@ function calculateScore() {
     summary =
       "This opportunity appears promising but would benefit from " +
       "a controlled experiment or proof of concept before significant " +
-      "investment is committed.";
+      "investment is committed. Focus on generating evidence around " +
+      "value, feasibility and user adoption.";
 
   }
-
 
   else if (percentage >= 50) {
 
@@ -1299,19 +1219,20 @@ function calculateScore() {
     summary =
       "There may be meaningful value in this opportunity, but further " +
       "analysis is recommended before committing significant resources. " +
-      "Focus on validating value, feasibility and risk.";
+      "Focus on validating the business outcome, feasibility, risk " +
+      "and key assumptions.";
 
   }
 
-
   else {
 
-    recommendation = "DEFER";
+    recommendation = "DE-PRIORITIZE";
 
     summary =
       "Based on the current assessment, this opportunity should not " +
-      "be a priority at this stage. Reassess if business priorities, " +
-      "technology or feasibility conditions change.";
+      "be a priority relative to competing opportunities. Reassess " +
+      "if business priorities, technology, feasibility or expected " +
+      "value changes.";
 
   }
 
@@ -1319,7 +1240,6 @@ function calculateScore() {
   /*
     DISPLAY RESULT
   */
-
 
   document.getElementById("score").textContent =
     percentage;
@@ -1341,9 +1261,12 @@ function calculateScore() {
     DISPLAY SCORES
   */
 
-
   document.getElementById("valueScore").textContent =
     value + " / 5";
+
+
+  document.getElementById("alignmentScore").textContent =
+    alignment + " / 5";
 
 
   document.getElementById("feasibilityScore").textContent =
@@ -1358,17 +1281,16 @@ function calculateScore() {
     risk + " / 5";
 
 
-  document.getElementById("alignmentScore").textContent =
-    alignment + " / 5";
-
-
   /*
     UPDATE BARS
   */
 
-
   document.getElementById("valueBar").style.width =
     (value / 5 * 100) + "%";
+
+
+  document.getElementById("alignmentBar").style.width =
+    (alignment / 5 * 100) + "%";
 
 
   document.getElementById("feasibilityBar").style.width =
@@ -1383,20 +1305,19 @@ function calculateScore() {
     (risk / 5 * 100) + "%";
 
 
-  document.getElementById("alignmentBar").style.width =
-    (alignment / 5 * 100) + "%";
-
-
   /*
     STRENGTHS
   */
-
 
   const strengths = [];
 
 
   if (value >= 4)
     strengths.push("High potential business value");
+
+
+  if (alignment >= 4)
+    strengths.push("Strong strategic alignment");
 
 
   if (feasibility >= 4)
@@ -1409,10 +1330,6 @@ function calculateScore() {
 
   if (risk >= 4)
     strengths.push("Manageable risk profile");
-
-
-  if (alignment >= 4)
-    strengths.push("Strong strategic alignment");
 
 
   if (strengths.length === 0)
@@ -1429,12 +1346,15 @@ function calculateScore() {
     CONSIDERATIONS
   */
 
-
   const considerations = [];
 
 
   if (value <= 2)
     considerations.push("Limited expected business value");
+
+
+  if (alignment <= 2)
+    considerations.push("Limited strategic alignment");
 
 
   if (feasibility <= 2)
@@ -1446,11 +1366,7 @@ function calculateScore() {
 
 
   if (risk <= 2)
-    considerations.push("Higher risk requires additional controls");
-
-
-  if (alignment <= 2)
-    considerations.push("Limited strategic alignment");
+    considerations.push("Risk requires additional controls or analysis");
 
 
   if (considerations.length === 0)
@@ -1474,7 +1390,6 @@ function calculateScore() {
     SHOW RESULTS
   */
 
-
   document.getElementById("result").style.display =
     "block";
 
@@ -1486,13 +1401,7 @@ function calculateScore() {
 }
 
 
-
 function updateMatrix(value, feasibility, useCase) {
-
-
-  const matrix =
-    document.getElementById("matrix");
-
 
   const dot =
     document.getElementById("opportunityDot");
@@ -1503,15 +1412,12 @@ function updateMatrix(value, feasibility, useCase) {
 
 
   /*
-    Convert 1–5 scores into percentages.
-
     Feasibility controls horizontal position.
 
     Business Value controls vertical position.
 
-    The 50% threshold separates high and low.
+    The midpoint separates high and low.
   */
-
 
   const x =
     ((feasibility - 1) / 4) * 100;
@@ -1519,14 +1425,6 @@ function updateMatrix(value, feasibility, useCase) {
 
   const y =
     ((value - 1) / 4) * 100;
-
-
-  /*
-    CSS grid coordinates start at the top.
-
-    Therefore a high business value should
-    appear toward the top of the matrix.
-  */
 
 
   const top =
@@ -1563,15 +1461,17 @@ function updateMatrix(value, feasibility, useCase) {
 }
 
 
-
 function resetTool() {
-
 
   document.getElementById("useCase").value =
     "";
 
 
   document.getElementById("value").value =
+    "3";
+
+
+  document.getElementById("alignment").value =
     "3";
 
 
@@ -1584,10 +1484,6 @@ function resetTool() {
 
 
   document.getElementById("risk").value =
-    "3";
-
-
-  document.getElementById("alignment").value =
     "3";
 
 
@@ -1609,7 +1505,6 @@ function resetTool() {
   });
 
 }
-
 
 </script>
 
