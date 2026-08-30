@@ -47,7 +47,7 @@
 
     .subtitle {
       margin-top: 12px;
-      max-width: 700px;
+      max-width: 750px;
       font-size: 17px;
       line-height: 1.6;
       opacity: 0.85;
@@ -75,6 +75,7 @@
     .card-description {
       color: #6b7280;
       margin-bottom: 25px;
+      line-height: 1.6;
     }
 
     label {
@@ -237,6 +238,7 @@
       height: 100%;
       background: #111827;
       width: 0%;
+      transition: width 0.5s ease;
     }
 
     .executive-summary {
@@ -269,7 +271,140 @@
     .insight ul {
       padding-left: 20px;
       margin-bottom: 0;
+      line-height: 1.7;
     }
+
+    /*
+      PORTFOLIO MATRIX
+    */
+
+    .matrix-wrapper {
+      margin-top: 25px;
+    }
+
+    .matrix {
+      position: relative;
+      width: 100%;
+      max-width: 760px;
+      height: 500px;
+      margin: 30px auto 15px auto;
+      border: 1px solid #d1d5db;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    .quadrant {
+      position: relative;
+      padding: 20px;
+      border: 1px solid #d1d5db;
+    }
+
+    .quadrant h3 {
+      margin: 0 0 8px 0;
+      font-size: 17px;
+    }
+
+    .quadrant p {
+      margin: 0;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .prioritize {
+      background: #f3f4f6;
+    }
+
+    .investigate {
+      background: #fafafa;
+    }
+
+    .experiment {
+      background: #fafafa;
+    }
+
+    .defer {
+      background: #f3f4f6;
+    }
+
+    .axis-y {
+      position: absolute;
+      left: -58px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-weight: bold;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .axis-x {
+      text-align: center;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .high-label,
+    .low-label {
+      position: absolute;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .high-label {
+      top: -22px;
+      left: 5px;
+    }
+
+    .low-label {
+      bottom: -22px;
+      left: 5px;
+    }
+
+    /*
+      The plotted opportunity
+    */
+
+    .opportunity-dot {
+      display: none;
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #111827;
+      border: 4px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      transform: translate(-50%, 50%);
+      z-index: 5;
+    }
+
+    .opportunity-label {
+      display: none;
+      position: absolute;
+      background: #111827;
+      color: white;
+      padding: 7px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: bold;
+      max-width: 190px;
+      z-index: 6;
+      transform: translate(-50%, -115%);
+      white-space: normal;
+      text-align: center;
+    }
+
+    .matrix-note {
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /*
+      METHODOLOGY
+    */
 
     .methodology table {
       width: 100%;
@@ -282,6 +417,7 @@
       text-align: left;
       padding: 12px;
       border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
     }
 
     .methodology th {
@@ -314,6 +450,10 @@
         grid-template-columns: 1fr 1fr;
       }
 
+      .matrix {
+        height: 450px;
+      }
+
       h1 {
         font-size: 28px;
       }
@@ -326,18 +466,28 @@
         grid-template-columns: 1fr;
       }
 
-      .card {
-        padding: 20px;
+      .matrix {
+        height: 420px;
+      }
+
+      .axis-y {
+        left: -48px;
+        font-size: 11px;
       }
 
       .score {
         font-size: 46px;
       }
 
+      .card {
+        padding: 20px;
+      }
+
     }
 
   </style>
 </head>
+
 
 <body>
 
@@ -364,7 +514,8 @@
 
 <main class="container">
 
-  <!-- INPUT SECTION -->
+
+  <!-- INPUT -->
 
   <section class="card">
 
@@ -372,7 +523,8 @@
 
     <p class="card-description">
       Score each dimension from 1 to 5. The tool converts the assessment
-      into a weighted priority score from 0–100.
+      into a weighted priority score from 0–100 and positions the
+      opportunity on an AI portfolio matrix.
     </p>
 
 
@@ -388,10 +540,13 @@
 
 
     <label for="value">
+
       Business Value
+
       <div class="label-description">
         Potential impact on revenue, cost, productivity, experience or risk.
       </div>
+
     </label>
 
     <select id="value">
@@ -406,10 +561,13 @@
 
 
     <label for="feasibility">
+
       Feasibility
+
       <div class="label-description">
         Practicality considering data, technology, skills and organizational readiness.
       </div>
+
     </label>
 
     <select id="feasibility">
@@ -424,10 +582,13 @@
 
 
     <label for="time">
+
       Time to Value
+
       <div class="label-description">
         How quickly meaningful benefits could realistically be achieved.
       </div>
+
     </label>
 
     <select id="time">
@@ -442,10 +603,13 @@
 
 
     <label for="risk">
+
       Risk
+
       <div class="label-description">
         Overall business, regulatory, privacy, security and reputational risk.
       </div>
+
     </label>
 
     <select id="risk">
@@ -460,10 +624,13 @@
 
 
     <label for="alignment">
+
       Strategic Alignment
+
       <div class="label-description">
         Alignment with important business and strategic priorities.
       </div>
+
     </label>
 
     <select id="alignment">
@@ -498,11 +665,12 @@
   </section>
 
 
-  <!-- RESULTS SECTION -->
+  <!-- RESULTS -->
 
   <section class="card result" id="result">
 
     <h2>Executive Assessment</h2>
+
 
     <div class="result-header">
 
@@ -548,9 +716,13 @@
     </div>
 
 
+    <!-- SCORE BREAKDOWN -->
+
     <h3>Score Breakdown</h3>
 
+
     <div class="dimensions">
+
 
       <div class="dimension">
 
@@ -567,10 +739,12 @@
         </div>
 
         <div class="bar-container">
+
           <div
             class="bar"
             id="valueBar"
           ></div>
+
         </div>
 
       </div>
@@ -591,10 +765,12 @@
         </div>
 
         <div class="bar-container">
+
           <div
             class="bar"
             id="feasibilityBar"
           ></div>
+
         </div>
 
       </div>
@@ -615,10 +791,12 @@
         </div>
 
         <div class="bar-container">
+
           <div
             class="bar"
             id="timeBar"
           ></div>
+
         </div>
 
       </div>
@@ -639,10 +817,12 @@
         </div>
 
         <div class="bar-container">
+
           <div
             class="bar"
             id="riskBar"
           ></div>
+
         </div>
 
       </div>
@@ -663,16 +843,20 @@
         </div>
 
         <div class="bar-container">
+
           <div
             class="bar"
             id="alignmentBar"
           ></div>
+
         </div>
 
       </div>
 
     </div>
 
+
+    <!-- EXECUTIVE SUMMARY -->
 
     <div class="executive-summary">
 
@@ -685,7 +869,10 @@
     </div>
 
 
+    <!-- STRENGTHS -->
+
     <div class="insights">
+
 
       <div class="insight">
 
@@ -704,7 +891,131 @@
 
       </div>
 
+
     </div>
+
+
+    <!-- PORTFOLIO MATRIX -->
+
+    <div class="matrix-wrapper">
+
+      <h3>AI Opportunity Portfolio Matrix</h3>
+
+      <p class="card-description">
+
+        The matrix positions the opportunity using Business Value
+        and Feasibility. It provides a portfolio view alongside
+        the weighted overall score.
+
+      </p>
+
+
+      <div class="matrix" id="matrix">
+
+
+        <!-- TOP LEFT -->
+
+        <div class="quadrant investigate">
+
+          <h3>INVESTIGATE</h3>
+
+          <p>
+            High potential value but lower feasibility.
+            Further analysis, capability building or experimentation
+            may be required.
+          </p>
+
+        </div>
+
+
+        <!-- TOP RIGHT -->
+
+        <div class="quadrant prioritize">
+
+          <h3>PRIORITIZE</h3>
+
+          <p>
+            High value and high feasibility.
+            Strong candidates for pilots and investment.
+          </p>
+
+        </div>
+
+
+        <!-- BOTTOM LEFT -->
+
+        <div class="quadrant defer">
+
+          <h3>DEFER</h3>
+
+          <p>
+            Lower value and lower feasibility.
+            Consider revisiting when circumstances change.
+          </p>
+
+        </div>
+
+
+        <!-- BOTTOM RIGHT -->
+
+        <div class="quadrant experiment">
+
+          <h3>EXPERIMENT</h3>
+
+          <p>
+            Lower value but relatively easy to implement.
+            Suitable for low-cost experimentation.
+          </p>
+
+        </div>
+
+
+        <!-- OPPORTUNITY DOT -->
+
+        <div
+          class="opportunity-dot"
+          id="opportunityDot"
+        ></div>
+
+
+        <div
+          class="opportunity-label"
+          id="opportunityLabel"
+        ></div>
+
+
+        <div class="axis-y">
+          BUSINESS VALUE
+        </div>
+
+
+        <div class="high-label">
+          HIGH
+        </div>
+
+
+        <div class="low-label">
+          LOW
+        </div>
+
+      </div>
+
+
+      <div class="axis-x">
+        FEASIBILITY → LOW to HIGH
+      </div>
+
+
+      <p class="matrix-note">
+
+        The matrix is a decision-support visualization.
+        It should be considered alongside detailed financial,
+        technology, regulatory and risk analysis.
+
+      </p>
+
+    </div>
+
 
   </section>
 
@@ -716,8 +1027,10 @@
     <h2>Scoring Methodology</h2>
 
     <p class="card-description">
+
       The tool uses a weighted scoring model to provide a consistent
       framework for comparing potential AI opportunities.
+
     </p>
 
 
@@ -726,43 +1039,70 @@
       <thead>
 
         <tr>
+
           <th>Dimension</th>
           <th>Weight</th>
           <th>What it considers</th>
+
         </tr>
 
       </thead>
 
+
       <tbody>
 
         <tr>
+
           <td>Business Value</td>
           <td>30%</td>
-          <td>Revenue, cost, productivity, experience and risk impact</td>
+          <td>
+            Revenue, cost, productivity, experience and risk impact.
+          </td>
+
         </tr>
 
+
         <tr>
+
           <td>Feasibility</td>
           <td>20%</td>
-          <td>Data, technology, skills and organizational readiness</td>
+          <td>
+            Data, technology, skills and organizational readiness.
+          </td>
+
         </tr>
 
+
         <tr>
+
           <td>Time to Value</td>
           <td>20%</td>
-          <td>Expected speed of realizing meaningful benefits</td>
+          <td>
+            Expected speed of realizing meaningful benefits.
+          </td>
+
         </tr>
 
+
         <tr>
+
           <td>Risk</td>
           <td>15%</td>
-          <td>Business, regulatory, privacy, security and reputational risk</td>
+          <td>
+            Business, regulatory, privacy, security and reputational risk.
+          </td>
+
         </tr>
 
+
         <tr>
+
           <td>Strategic Alignment</td>
           <td>15%</td>
-          <td>Alignment with business strategy and priorities</td>
+          <td>
+            Alignment with business strategy and priorities.
+          </td>
+
         </tr>
 
       </tbody>
@@ -772,32 +1112,60 @@
 
     <h3>Decision Thresholds</h3>
 
+
     <table>
 
       <tbody>
 
         <tr>
+
           <td><strong>80–100</strong></td>
+
           <td>PRIORITIZE</td>
-          <td>Strong candidate for detailed discovery or pilot planning.</td>
+
+          <td>
+            Strong candidate for detailed discovery or pilot planning.
+          </td>
+
         </tr>
 
+
         <tr>
+
           <td><strong>65–79</strong></td>
+
           <td>EXPERIMENT</td>
-          <td>Promising opportunity suitable for controlled experimentation.</td>
+
+          <td>
+            Promising opportunity suitable for controlled experimentation.
+          </td>
+
         </tr>
 
+
         <tr>
+
           <td><strong>50–64</strong></td>
+
           <td>INVESTIGATE</td>
-          <td>Further evidence and analysis recommended.</td>
+
+          <td>
+            Further evidence and analysis recommended.
+          </td>
+
         </tr>
 
+
         <tr>
+
           <td><strong>0–49</strong></td>
+
           <td>DEFER</td>
-          <td>Not currently a priority based on the assessment.</td>
+
+          <td>
+            Not currently a priority based on the assessment.
+          </td>
+
         </tr>
 
       </tbody>
@@ -807,7 +1175,7 @@
   </section>
 
 
-  <!-- DISCLAIMER -->
+  <!-- ABOUT -->
 
   <section class="card">
 
@@ -830,6 +1198,7 @@
 
   </section>
 
+
 </main>
 
 
@@ -842,7 +1211,9 @@
 
 <script>
 
+
 function calculateScore() {
+
 
   const useCase =
     document.getElementById("useCase").value.trim()
@@ -852,21 +1223,25 @@ function calculateScore() {
   const value =
     Number(document.getElementById("value").value);
 
+
   const feasibility =
     Number(document.getElementById("feasibility").value);
+
 
   const time =
     Number(document.getElementById("time").value);
 
+
   const risk =
     Number(document.getElementById("risk").value);
+
 
   const alignment =
     Number(document.getElementById("alignment").value);
 
 
   /*
-    Weighted scoring model
+    WEIGHTED SCORE
 
     Business Value       30%
     Feasibility          20%
@@ -874,6 +1249,7 @@ function calculateScore() {
     Risk                 15%
     Strategic Alignment  15%
   */
+
 
   const weightedScore =
       (value * 0.30)
@@ -903,6 +1279,7 @@ function calculateScore() {
 
   }
 
+
   else if (percentage >= 65) {
 
     recommendation = "EXPERIMENT";
@@ -914,6 +1291,7 @@ function calculateScore() {
 
   }
 
+
   else if (percentage >= 50) {
 
     recommendation = "INVESTIGATE";
@@ -924,6 +1302,7 @@ function calculateScore() {
       "Focus on validating value, feasibility and risk.";
 
   }
+
 
   else {
 
@@ -938,79 +1317,99 @@ function calculateScore() {
 
 
   /*
-    Display overall result
+    DISPLAY RESULT
   */
+
 
   document.getElementById("score").textContent =
     percentage;
 
+
   document.getElementById("recommendation").textContent =
     recommendation;
 
+
   document.getElementById("resultUseCase").textContent =
     useCase;
+
 
   document.getElementById("summary").textContent =
     summary;
 
 
   /*
-    Display dimension scores
+    DISPLAY SCORES
   */
+
 
   document.getElementById("valueScore").textContent =
     value + " / 5";
 
+
   document.getElementById("feasibilityScore").textContent =
     feasibility + " / 5";
+
 
   document.getElementById("timeScore").textContent =
     time + " / 5";
 
+
   document.getElementById("riskScore").textContent =
     risk + " / 5";
+
 
   document.getElementById("alignmentScore").textContent =
     alignment + " / 5";
 
 
   /*
-    Update visual bars
+    UPDATE BARS
   */
+
 
   document.getElementById("valueBar").style.width =
     (value / 5 * 100) + "%";
 
+
   document.getElementById("feasibilityBar").style.width =
     (feasibility / 5 * 100) + "%";
+
 
   document.getElementById("timeBar").style.width =
     (time / 5 * 100) + "%";
 
+
   document.getElementById("riskBar").style.width =
     (risk / 5 * 100) + "%";
+
 
   document.getElementById("alignmentBar").style.width =
     (alignment / 5 * 100) + "%";
 
 
   /*
-    Generate strengths
+    STRENGTHS
   */
 
+
   const strengths = [];
+
 
   if (value >= 4)
     strengths.push("High potential business value");
 
+
   if (feasibility >= 4)
     strengths.push("Strong implementation feasibility");
+
 
   if (time >= 4)
     strengths.push("Relatively fast path to value");
 
+
   if (risk >= 4)
     strengths.push("Manageable risk profile");
+
 
   if (alignment >= 4)
     strengths.push("Strong strategic alignment");
@@ -1027,22 +1426,28 @@ function calculateScore() {
 
 
   /*
-    Generate considerations
+    CONSIDERATIONS
   */
 
+
   const considerations = [];
+
 
   if (value <= 2)
     considerations.push("Limited expected business value");
 
+
   if (feasibility <= 2)
     considerations.push("Implementation may be difficult");
+
 
   if (time <= 2)
     considerations.push("Longer expected time to value");
 
+
   if (risk <= 2)
     considerations.push("Higher risk requires additional controls");
+
 
   if (alignment <= 2)
     considerations.push("Limited strategic alignment");
@@ -1059,16 +1464,20 @@ function calculateScore() {
 
 
   /*
-    Show results
+    UPDATE PORTFOLIO MATRIX
   */
+
+  updateMatrix(value, feasibility, useCase);
+
+
+  /*
+    SHOW RESULTS
+  */
+
 
   document.getElementById("result").style.display =
     "block";
 
-
-  /*
-    Scroll smoothly to results
-  */
 
   document.getElementById("result").scrollIntoView({
     behavior: "smooth"
@@ -1077,18 +1486,122 @@ function calculateScore() {
 }
 
 
+
+function updateMatrix(value, feasibility, useCase) {
+
+
+  const matrix =
+    document.getElementById("matrix");
+
+
+  const dot =
+    document.getElementById("opportunityDot");
+
+
+  const label =
+    document.getElementById("opportunityLabel");
+
+
+  /*
+    Convert 1–5 scores into percentages.
+
+    Feasibility controls horizontal position.
+
+    Business Value controls vertical position.
+
+    The 50% threshold separates high and low.
+  */
+
+
+  const x =
+    ((feasibility - 1) / 4) * 100;
+
+
+  const y =
+    ((value - 1) / 4) * 100;
+
+
+  /*
+    CSS grid coordinates start at the top.
+
+    Therefore a high business value should
+    appear toward the top of the matrix.
+  */
+
+
+  const top =
+    100 - y;
+
+
+  dot.style.left =
+    x + "%";
+
+
+  dot.style.top =
+    top + "%";
+
+
+  label.style.left =
+    x + "%";
+
+
+  label.style.top =
+    top + "%";
+
+
+  label.textContent =
+    useCase;
+
+
+  dot.style.display =
+    "block";
+
+
+  label.style.display =
+    "block";
+
+}
+
+
+
 function resetTool() {
 
-  document.getElementById("useCase").value = "";
 
-  document.getElementById("value").value = "3";
-  document.getElementById("feasibility").value = "3";
-  document.getElementById("time").value = "3";
-  document.getElementById("risk").value = "3";
-  document.getElementById("alignment").value = "3";
+  document.getElementById("useCase").value =
+    "";
+
+
+  document.getElementById("value").value =
+    "3";
+
+
+  document.getElementById("feasibility").value =
+    "3";
+
+
+  document.getElementById("time").value =
+    "3";
+
+
+  document.getElementById("risk").value =
+    "3";
+
+
+  document.getElementById("alignment").value =
+    "3";
+
 
   document.getElementById("result").style.display =
     "none";
+
+
+  document.getElementById("opportunityDot").style.display =
+    "none";
+
+
+  document.getElementById("opportunityLabel").style.display =
+    "none";
+
 
   window.scrollTo({
     top: 0,
@@ -1096,6 +1609,7 @@ function resetTool() {
   });
 
 }
+
 
 </script>
 
