@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Use-Case Scoring Tool</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.5;
+      background: #f7f7f7;
+      color: #222;
+    }
+
+    .container {
+      background: white;
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #222;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .result {
+      display: none;
+      margin-top: 35px;
+      padding: 25px;
+      border-radius: 10px;
+      background: #f1f1f1;
+    }
+
+    .score {
+      font-size: 42px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .recommendation {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .explanation {
+      margin-top: 20px;
+    }
+
+    .disclaimer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>AI Use-Case Scoring Tool</h1>
+
+  <p class="subtitle">
+    A practical decision-support tool for evaluating potential AI opportunities.
+  </p>
+
+  <label for="useCase">AI Use Case</label>
+  <input
+    type="text"
+    id="useCase"
+    placeholder="e.g. Management reporting assistant"
+  >
+
+  <label for="value">Business Value (1–5)</label>
+  <select id="value">
+    <option value="1">1 — Very Low</option>
+    <option value="2">2 — Low</option>
+    <option value="3" selected>3 — Medium</option>
+    <option value="4">4 — High</option>
+    <option value="5">5 — Very High</option>
+  </select>
+
+  <label for="feasibility">Feasibility (1–5)</label>
+  <select id="feasibility">
+    <option value="1">1 — Very Difficult</option>
+    <option value="2">2 — Difficult</option>
+    <option value="3" selected>3 — Moderate</option>
+    <option value="4">4 — Easy</option>
+    <option value="5">5 — Very Easy</option>
+  </select>
+
+  <label for="time">Time to Value (1–5)</label>
+  <select id="time">
+    <option value="1">1 — More than 18 months</option>
+    <option value="2">2 — 12–18 months</option>
+    <option value="3" selected>3 — 6–12 months</option>
+    <option value="4">4 — 3–6 months</option>
+    <option value="5">5 — Less than 3 months</option>
+  </select>
+
+  <label for="risk">Risk (1–5)</label>
+  <select id="risk">
+    <option value="1">1 — Very High Risk</option>
+    <option value="2">2 — High Risk</option>
+    <option value="3" selected>3 — Moderate Risk</option>
+    <option value="4">4 — Low Risk</option>
+    <option value="5">5 — Very Low Risk</option>
+  </select>
+
+  <label for="alignment">Strategic Alignment (1–5)</label>
+  <select id="alignment">
+    <option value="1">1 — Very Low</option>
+    <option value="2">2 — Low</option>
+    <option value="3" selected>3 — Medium</option>
+    <option value="4">4 — High</option>
+    <option value="5">5 — Very High</option>
+  </select>
+
+  <button onclick="calculateScore()">Calculate AI Opportunity Score</button>
+
+  <div class="result" id="result">
+
+    <h2>Assessment Result</h2>
+
+    <div class="score" id="score"></div>
+
+    <div class="recommendation" id="recommendation"></div>
+
+    <div class="explanation" id="explanation"></div>
+
+  </div>
+
+  <div class="disclaimer">
+    This is an independently developed portfolio tool.
+    All examples are illustrative. No confidential, proprietary or
+    employer-specific information is used or stored.
+  </div>
+
+</div>
+
+<script>
+
+function calculateScore() {
+
+  const useCase =
+    document.getElementById("useCase").value ||
+    "Unnamed AI use case";
+
+  const value =
+    Number(document.getElementById("value").value);
+
+  const feasibility =
+    Number(document.getElementById("feasibility").value);
+
+  const time =
+    Number(document.getElementById("time").value);
+
+  const risk =
+    Number(document.getElementById("risk").value);
+
+  const alignment =
+    Number(document.getElementById("alignment").value);
+
+  const score =
+    (value * 0.30) +
+    (feasibility * 0.20) +
+    (time * 0.20) +
+    (risk * 0.15) +
+    (alignment * 0.15);
+
+  const percentage =
+    Math.round((score / 5) * 100);
+
+  let recommendation;
+  let explanation;
+
+  if (percentage >= 80) {
+
+    recommendation = "PRIORITIZE";
+
+    explanation =
+      "This use case shows strong potential across value, feasibility, time to value, risk and strategic alignment. Consider moving to detailed discovery or pilot planning.";
+
+  } else if (percentage >= 65) {
+
+    recommendation = "EXPERIMENT";
+
+    explanation =
+      "This opportunity appears promising but would benefit from a controlled experiment or proof of concept before significant investment.";
+
+  } else if (percentage >= 50) {
+
+    recommendation = "INVESTIGATE";
+
+    explanation =
+      "There may be value in this opportunity, but further analysis is recommended before committing significant resources.";
+
+  } else {
+
+    recommendation = "DEFER";
+
+    explanation =
+      "The current assessment suggests that this opportunity should not be a priority at this stage. Reassess if circumstances or strategic priorities change.";
+
+  }
+
+  document.getElementById("score").textContent =
+    percentage + " / 100";
+
+  document.getElementById("recommendation").textContent =
+    recommendation;
+
+  document.getElementById("explanation").innerHTML =
+    "<strong>" + useCase + "</strong><br><br>" +
+    explanation;
+
+  document.getElementById("result").style.display =
+    "block";
+}
+
+</script>
+
+</body>
+</html>
