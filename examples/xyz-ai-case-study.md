@@ -1,12 +1,12 @@
-Northstar Digital Health — AI Business Operations Case Study
+xyz Digital Health — AI Business Operations Case Study
 
 Fictional case study
 
-Northstar Digital Health is a fictional organization created solely for demonstrating the application of the AI Business Operations Toolkit. It is not based on any current or former employer.
+xyz Digital Health is a fictional organization created solely for demonstrating the application of the AI Business Operations Toolkit. It is not based on any current or former employer.
 
 1. Company Context
 
-Northstar Digital Health is a hypothetical global healthcare technology company.
+xyz Digital Health is a hypothetical global healthcare technology company.
 
 Illustrative profile
 5,000 employees
@@ -19,7 +19,7 @@ These figures are entirely illustrative.
 
 2. Business Challenge
 
-Northstar has grown rapidly and now faces increasing operational complexity.
+xyz has grown rapidly and now faces increasing operational complexity.
 
 Business leaders have identified several challenges:
 
