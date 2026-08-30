@@ -1,488 +1,463 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>AI Use-Case Scoring Tool</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f6f8;
-      color: #1f2937;
-    }
-
-    .header {
-      background: #111827;
-      color: white;
-      padding: 40px 20px;
-    }
-
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-size: 12px;
-      font-weight: bold;
-      opacity: 0.7;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 34px;
-      line-height: 1.2;
-    }
-
-    .subtitle {
-      margin-top: 12px;
-      max-width: 800px;
-      font-size: 17px;
-      line-height: 1.6;
-      opacity: 0.85;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
-      margin-bottom: 25px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
-
-    .card h2 {
-      margin-top: 0;
-      font-size: 22px;
-    }
-
-    .card-description {
-      color: #6b7280;
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-top: 20px;
-      margin-bottom: 7px;
-    }
-
-    .label-description {
-      font-weight: normal;
-      color: #6b7280;
-      font-size: 13px;
-      margin-top: 3px;
-      line-height: 1.5;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 7px;
-      background: white;
-      font-size: 15px;
-    }
-
-    input:focus,
-    select:focus {
-      outline: none;
-      border-color: #111827;
-    }
-
-    .button-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 30px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      padding: 13px 22px;
-      border-radius: 7px;
-      border: none;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .primary-button {
-      background: #111827;
-      color: white;
-    }
-
-    .secondary-button {
-      background: #e5e7eb;
-      color: #111827;
-    }
-
-    button:hover {
-      opacity: 0.85;
-    }
-
-    .result {
-      display: none;
-    }
-
-    .result-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 25px;
-    }
-
-    .score-card {
-      background: #f3f4f6;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-    }
-
-    .score-label {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #6b7280;
-      font-weight: bold;
-    }
-
-    .score {
-      font-size: 56px;
-      font-weight: bold;
-      margin: 10px 0;
-      color: #111827;
-    }
-
-    .recommendation-card {
-      background: #111827;
-      color: white;
-      border-radius: 12px;
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .recommendation-label {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      opacity: 0.7;
-      font-weight: bold;
-    }
-
-    .recommendation {
-      font-size: 30px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    .use-case-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    .dimensions {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .dimension {
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 15px;
-    }
-
-    .dimension-name {
-      font-size: 13px;
-      color: #6b7280;
-      min-height: 35px;
-    }
-
-    .dimension-score {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    .bar-container {
-      margin-top: 10px;
-      height: 7px;
-      background: #e5e7eb;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .bar {
-      height: 100%;
-      background: #111827;
-      width: 0%;
-      transition: width 0.5s ease;
-    }
-
-    .executive-summary {
-      background: #f9fafb;
-      border-left: 4px solid #111827;
-      padding: 20px;
-      border-radius: 6px;
-      margin-top: 25px;
-      line-height: 1.7;
-    }
-
-    .insights {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 25px;
-    }
-
-    .insight {
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 20px;
-    }
-
-    .insight h3 {
-      margin-top: 0;
-      font-size: 17px;
-    }
-
-    .insight ul {
-      padding-left: 20px;
-      margin-bottom: 0;
-      line-height: 1.7;
-    }
-
-    /*
-      PORTFOLIO MATRIX
-    */
-
-    .matrix-wrapper {
-      margin-top: 25px;
-    }
-
-    .matrix {
-      position: relative;
-      width: 100%;
-      max-width: 760px;
-      height: 500px;
-      margin: 30px auto 15px auto;
-      border: 1px solid #d1d5db;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-    }
-
-    .quadrant {
-      position: relative;
-      padding: 20px;
-      border: 1px solid #d1d5db;
-    }
-
-    .quadrant h3 {
-      margin: 0 0 8px 0;
-      font-size: 17px;
-    }
-
-    .quadrant p {
-      margin: 0;
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-
-    .prioritize {
-      background: #f3f4f6;
-    }
-
-    .investigate {
-      background: #fafafa;
-    }
-
-    .experiment {
-      background: #fafafa;
-    }
-
-    .defer {
-      background: #f3f4f6;
-    }
-
-    .axis-y {
-      position: absolute;
-      left: -58px;
-      top: 50%;
-      transform: translateY(-50%) rotate(-90deg);
-      font-weight: bold;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .axis-x {
-      text-align: center;
-      font-weight: bold;
-      font-size: 13px;
-      margin-top: 10px;
-    }
-
-    .high-label,
-    .low-label {
-      position: absolute;
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .high-label {
-      top: -22px;
-      left: 5px;
-    }
-
-    .low-label {
-      bottom: -22px;
-      left: 5px;
-    }
-
-    .opportunity-dot {
-      display: none;
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: #111827;
-      border: 4px solid white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      transform: translate(-50%, 50%);
-      z-index: 5;
-    }
-
-    .opportunity-label {
-      display: none;
-      position: absolute;
-      background: #111827;
-      color: white;
-      padding: 7px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-      font-weight: bold;
-      max-width: 190px;
-      z-index: 6;
-      transform: translate(-50%, -115%);
-      white-space: normal;
-      text-align: center;
-    }
-
-    .matrix-note {
-      text-align: center;
-      color: #6b7280;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    /*
-      METHODOLOGY
-    */
-
-    .methodology table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-
-    .methodology th,
-    .methodology td {
-      text-align: left;
-      padding: 12px;
-      border-bottom: 1px solid #e5e7eb;
-      vertical-align: top;
-    }
-
-    .methodology th {
-      font-size: 13px;
-      text-transform: uppercase;
-      color: #6b7280;
-    }
-
-    .disclaimer {
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: #6b7280;
-      font-size: 13px;
-    }
-
-    @media (max-width: 800px) {
-
-      .result-header,
-      .insights {
-        grid-template-columns: 1fr;
-      }
-
-      .dimensions {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .matrix {
-        height: 450px;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-    }
-
-    @media (max-width: 500px) {
-
-      .dimensions {
-        grid-template-columns: 1fr;
-      }
-
-      .matrix {
-        height: 420px;
-      }
-
-      .axis-y {
-        left: -48px;
-        font-size: 11px;
-      }
-
-      .score {
-        font-size: 46px;
-      }
-
-      .card {
-        padding: 20px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Investment Decision Toolkit</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f6f8;
+  color: #1f2937;
+}
+
+.header {
+  background: #111827;
+  color: white;
+  padding: 40px 20px;
+}
+
+.header-inner {
+  max-width: 1150px;
+  margin: auto;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin-top: 12px;
+  max-width: 800px;
+  font-size: 17px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.container {
+  max-width: 1150px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.card-description {
+  color: #6b7280;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 18px;
+  margin-bottom: 7px;
+}
+
+.label-description {
+  font-weight: normal;
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  background: white;
+  font-size: 15px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #111827;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 13px 22px;
+  border-radius: 7px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: #111827;
+  color: white;
+}
+
+.secondary-button {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.danger-button {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* INPUT GRID */
+
+.input-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.input-grid label {
+  margin-top: 0;
+}
+
+/* PORTFOLIO SUMMARY */
+
+.portfolio-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.summary-box {
+  background: #f3f4f6;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.summary-number {
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.summary-label {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: bold;
+}
+
+/* TABLE */
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 13px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+}
+
+.rank {
+  font-weight: bold;
+  color: #6b7280;
+}
+
+.score-number {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.badge-prioritize {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-experiment {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-investigate {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-defer {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.remove-button {
+  padding: 6px 9px;
+  font-size: 12px;
+  background: #f3f4f6;
+}
+
+/* EXECUTIVE INSIGHT */
+
+.executive-insight {
+  background: #111827;
+  color: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 25px;
+  line-height: 1.7;
+}
+
+.executive-insight h3 {
+  margin-top: 0;
+}
+
+.executive-insight strong {
+  color: white;
+}
+
+/* MATRIX */
+
+.matrix-wrapper {
+  margin-top: 30px;
+}
+
+.matrix {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 500px;
+  margin: 35px auto 15px auto;
+  border: 1px solid #d1d5db;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.quadrant {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #d1d5db;
+}
+
+.quadrant h3 {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+}
+
+.quadrant p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.investigate {
+  background: #fafafa;
+}
+
+.prioritize {
+  background: #f3f4f6;
+}
+
+.experiment {
+  background: #fafafa;
+}
+
+.defer {
+  background: #f3f4f6;
+}
+
+.matrix-dot {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #111827;
+  border: 3px solid white;
+  box-shadow: 0 2px 7px rgba(0,0,0,0.3);
+  transform: translate(-50%, 50%);
+  z-index: 5;
+}
+
+.matrix-dot-label {
+  position: absolute;
+  background: #111827;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: bold;
+  transform: translate(-50%, -125%);
+  white-space: nowrap;
+  z-index: 6;
+}
+
+.axis-y {
+  position: absolute;
+  left: -65px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  font-weight: bold;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.axis-x {
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.high-label,
+.low-label {
+  position: absolute;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.high-label {
+  top: -22px;
+  left: 5px;
+}
+
+.low-label {
+  bottom: -22px;
+  left: 5px;
+}
+
+/* EMPTY STATE */
+
+.empty-state {
+  text-align: center;
+  padding: 35px;
+  color: #6b7280;
+}
+
+/* METHODOLOGY */
+
+.methodology table {
+  margin-top: 15px;
+}
+
+.disclaimer {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 950px) {
+
+  .input-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .portfolio-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .input-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .matrix {
+    height: 420px;
+  }
+
+  .axis-y {
+    left: -50px;
+    font-size: 10px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
@@ -492,15 +467,15 @@
   <div class="header-inner">
 
     <div class="eyebrow">
-      Business Operations • AI Transformation
+      Business Operations • AI Transformation • Investment Decisions
     </div>
 
-    <h1>AI Use-Case Scoring Tool</h1>
+    <h1>AI Investment Decision Toolkit</h1>
 
     <p class="subtitle">
-      A practical decision-support tool for evaluating and prioritizing
-      potential AI opportunities based on business value, feasibility,
-      time to value, risk and strategic alignment.
+      Evaluate multiple AI opportunities, compare their relative attractiveness,
+      and focus leadership attention on the opportunities with the strongest
+      combination of business value, feasibility, speed, risk and strategic alignment.
     </p>
 
   </div>
@@ -510,514 +485,248 @@
 
 <main class="container">
 
-  <!-- INPUT -->
 
-  <section class="card">
+<!-- ADD OPPORTUNITY -->
 
-    <h2>Assess an AI Opportunity</h2>
+<section class="card">
 
-    <p class="card-description">
-      Score each dimension from 1 to 5. The tool converts the assessment
-      into a weighted priority score from 0–100 and positions the
-      opportunity on an AI portfolio matrix.
-    </p>
+  <h2>Build Your AI Opportunity Portfolio</h2>
 
-    <label for="useCase">
-      AI Use Case
-    </label>
-
-    <input
-      type="text"
-      id="useCase"
-      placeholder="Example: Management reporting assistant"
-    />
+  <p class="card-description">
+    Add each potential AI opportunity and score it from 1–5 across the five
+    dimensions. The toolkit will calculate the priority score and rank the
+    opportunities automatically.
+  </p>
 
 
-    <label for="value">
+  <div class="input-grid">
 
-      Business Value
+    <div>
 
-      <div class="label-description">
-        Potential impact on revenue, cost, productivity, experience or risk.
-      </div>
+      <label for="useCase">
+        AI Opportunity
+      </label>
 
-    </label>
-
-    <select id="value">
-
-      <option value="1">1 — Very Low</option>
-      <option value="2">2 — Low</option>
-      <option value="3" selected>3 — Medium</option>
-      <option value="4">4 — High</option>
-      <option value="5">5 — Very High</option>
-
-    </select>
-
-
-    <label for="feasibility">
-
-      Feasibility
-
-      <div class="label-description">
-        Practicality considering data, technology, skills and organizational readiness.
-      </div>
-
-    </label>
-
-    <select id="feasibility">
-
-      <option value="1">1 — Very Difficult</option>
-      <option value="2">2 — Difficult</option>
-      <option value="3" selected>3 — Moderate</option>
-      <option value="4">4 — Easy</option>
-      <option value="5">5 — Very Easy</option>
-
-    </select>
-
-
-    <label for="time">
-
-      Time to Value
-
-      <div class="label-description">
-        How quickly meaningful benefits could realistically be achieved.
-      </div>
-
-    </label>
-
-    <select id="time">
-
-      <option value="1">1 — More than 18 months</option>
-      <option value="2">2 — 12–18 months</option>
-      <option value="3" selected>3 — 6–12 months</option>
-      <option value="4">4 — 3–6 months</option>
-      <option value="5">5 — Less than 3 months</option>
-
-    </select>
-
-
-    <label for="risk">
-
-      Risk
-
-      <div class="label-description">
-        Overall business, regulatory, privacy, security and reputational risk.
-        Higher scores represent lower risk.
-      </div>
-
-    </label>
-
-    <select id="risk">
-
-      <option value="1">1 — Very High Risk</option>
-      <option value="2">2 — High Risk</option>
-      <option value="3" selected>3 — Moderate Risk</option>
-      <option value="4">4 — Low Risk</option>
-      <option value="5">5 — Very Low Risk</option>
-
-    </select>
-
-
-    <label for="alignment">
-
-      Strategic Alignment
-
-      <div class="label-description">
-        Alignment with important business and strategic priorities.
-      </div>
-
-    </label>
-
-    <select id="alignment">
-
-      <option value="1">1 — Very Low</option>
-      <option value="2">2 — Low</option>
-      <option value="3" selected>3 — Medium</option>
-      <option value="4">4 — High</option>
-      <option value="5">5 — Very High</option>
-
-    </select>
-
-
-    <div class="button-row">
-
-      <button
-        class="primary-button"
-        onclick="calculateScore()"
+      <input
+        type="text"
+        id="useCase"
+        placeholder="e.g. Customer service AI assistant"
       >
-        Calculate Opportunity Score
-      </button>
 
-      <button
-        class="secondary-button"
-        onclick="resetTool()"
+    </div>
+
+
+    <div>
+
+      <label for="value">
+        Business Value
+      </label>
+
+      <select id="value">
+
+        <option value="1">1 — Very Low</option>
+        <option value="2">2 — Low</option>
+        <option value="3" selected>3 — Medium</option>
+        <option value="4">4 — High</option>
+        <option value="5">5 — Very High</option>
+
+      </select>
+
+    </div>
+
+
+    <div>
+
+      <label for="feasibility">
+        Feasibility
+      </label>
+
+      <select id="feasibility">
+
+        <option value="1">1 — Very Difficult</option>
+        <option value="2">2 — Difficult</option>
+        <option value="3" selected>3 — Moderate</option>
+        <option value="4">4 — Easy</option>
+        <option value="5">5 — Very Easy</option>
+
+      </select>
+
+    </div>
+
+
+    <div>
+
+      <label for="time">
+        Time to Value
+      </label>
+
+      <select id="time">
+
+        <option value="1">1 — >18 months</option>
+        <option value="2">2 — 12–18 months</option>
+        <option value="3" selected>3 — 6–12 months</option>
+        <option value="4">4 — 3–6 months</option>
+        <option value="5">5 — <3 months</option>
+
+      </select>
+
+    </div>
+
+
+    <div>
+
+      <label for="risk">
+        Risk
+      </label>
+
+      <select id="risk">
+
+        <option value="1">1 — Very High</option>
+        <option value="2">2 — High</option>
+        <option value="3" selected>3 — Moderate</option>
+        <option value="4">4 — Low</option>
+        <option value="5">5 — Very Low</option>
+
+      </select>
+
+    </div>
+
+
+    <div>
+
+      <label for="alignment">
+        Strategic Alignment
+      </label>
+
+      <select id="alignment">
+
+        <option value="1">1 — Very Low</option>
+        <option value="2">2 — Low</option>
+        <option value="3" selected>3 — Medium</option>
+        <option value="4">4 — High</option>
+        <option value="5">5 — Very High</option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <div class="button-row">
+
+    <button
+      class="primary-button"
+      onclick="addOpportunity()"
+    >
+      + Add Opportunity
+    </button>
+
+    <button
+      class="secondary-button"
+      onclick="clearPortfolio()"
+    >
+      Clear Portfolio
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- PORTFOLIO RESULTS -->
+
+<section class="card">
+
+  <h2>Executive Portfolio View</h2>
+
+  <p class="card-description">
+    The portfolio view ranks opportunities by their weighted priority score
+    and highlights where leadership attention should be focused.
+  </p>
+
+
+  <div class="portfolio-summary">
+
+    <div class="summary-box">
+
+      <div
+        class="summary-number"
+        id="totalCount"
       >
-        Reset
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- RESULTS -->
-
-  <section class="card result" id="result">
-
-    <h2>Executive Assessment</h2>
-
-
-    <div class="result-header">
-
-      <div class="score-card">
-
-        <div class="score-label">
-          Priority Score
-        </div>
-
-        <div class="score" id="score">
-          0
-        </div>
-
-        <div>
-          out of 100
-        </div>
-
+        0
       </div>
 
-
-      <div class="recommendation-card">
-
-        <div class="recommendation-label">
-          Recommended Action
-        </div>
-
-        <div
-          class="recommendation"
-          id="recommendation"
-        >
-          —
-        </div>
-
-        <div
-          class="use-case-title"
-          id="resultUseCase"
-        >
-          —
-        </div>
-
+      <div class="summary-label">
+        Total Opportunities
       </div>
 
     </div>
 
 
-    <!-- SCORE BREAKDOWN -->
+    <div class="summary-box">
 
-    <h3>Score Breakdown</h3>
-
-    <div class="dimensions">
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Business Value<br>
-          <small>30%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="valueScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="valueBar"
-          ></div>
-
-        </div>
-
+      <div
+        class="summary-number"
+        id="prioritizeCount"
+      >
+        0
       </div>
 
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Feasibility<br>
-          <small>20%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="feasibilityScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="feasibilityBar"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Time to Value<br>
-          <small>20%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="timeScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="timeBar"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Risk<br>
-          <small>15%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="riskScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="riskBar"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="dimension">
-
-        <div class="dimension-name">
-          Strategic Alignment<br>
-          <small>15%</small>
-        </div>
-
-        <div
-          class="dimension-score"
-          id="alignmentScore"
-        >
-          —
-        </div>
-
-        <div class="bar-container">
-
-          <div
-            class="bar"
-            id="alignmentBar"
-          ></div>
-
-        </div>
-
+      <div class="summary-label">
+        Prioritize
       </div>
 
     </div>
 
 
-    <!-- EXECUTIVE SUMMARY -->
+    <div class="summary-box">
 
-    <div class="executive-summary">
+      <div
+        class="summary-number"
+        id="experimentCount"
+      >
+        0
+      </div>
 
-      <strong>Executive Recommendation</strong>
-
-      <p id="summary">
-        —
-      </p>
+      <div class="summary-label">
+        Experiment
+      </div>
 
     </div>
 
 
-    <!-- INSIGHTS -->
+    <div class="summary-box">
 
-    <div class="insights">
-
-
-      <div class="insight">
-
-        <h3>Key Strengths</h3>
-
-        <ul id="strengths"></ul>
-
+      <div
+        class="summary-number"
+        id="deferCount"
+      >
+        0
       </div>
 
-
-      <div class="insight">
-
-        <h3>Key Considerations</h3>
-
-        <ul id="considerations"></ul>
-
+      <div class="summary-label">
+        Defer
       </div>
-
 
     </div>
 
-
-    <!-- PORTFOLIO MATRIX -->
-
-    <div class="matrix-wrapper">
-
-      <h3>AI Opportunity Portfolio Matrix</h3>
-
-      <p class="card-description">
-
-        The matrix positions the opportunity using Business Value
-        and Feasibility. It provides a portfolio view alongside
-        the weighted overall score.
-
-      </p>
+  </div>
 
 
-      <div class="matrix" id="matrix">
+  <div
+    id="emptyState"
+    class="empty-state"
+  >
+    Add your first AI opportunity above to begin building the portfolio.
+  </div>
 
 
-        <div class="quadrant investigate">
-
-          <h3>INVESTIGATE</h3>
-
-          <p>
-            High potential value but lower feasibility.
-            Further analysis, capability building or experimentation
-            may be required.
-          </p>
-
-        </div>
-
-
-        <div class="quadrant prioritize">
-
-          <h3>PRIORITIZE</h3>
-
-          <p>
-            High value and high feasibility.
-            Strong candidates for pilots and investment.
-          </p>
-
-        </div>
-
-
-        <div class="quadrant defer">
-
-          <h3>DEFER</h3>
-
-          <p>
-            Lower value and lower feasibility.
-            Consider revisiting when circumstances change.
-          </p>
-
-        </div>
-
-
-        <div class="quadrant experiment">
-
-          <h3>EXPERIMENT</h3>
-
-          <p>
-            Lower value but relatively easy to implement.
-            Suitable for low-cost experimentation.
-          </p>
-
-        </div>
-
-
-        <div
-          class="opportunity-dot"
-          id="opportunityDot"
-        ></div>
-
-
-        <div
-          class="opportunity-label"
-          id="opportunityLabel"
-        ></div>
-
-
-        <div class="axis-y">
-          BUSINESS VALUE
-        </div>
-
-
-        <div class="high-label">
-          HIGH
-        </div>
-
-
-        <div class="low-label">
-          LOW
-        </div>
-
-      </div>
-
-
-      <div class="axis-x">
-        FEASIBILITY → LOW to HIGH
-      </div>
-
-
-      <p class="matrix-note">
-
-        The matrix is a decision-support visualization.
-        It should be considered alongside detailed financial,
-        technology, regulatory and risk analysis.
-
-      </p>
-
-    </div>
-
-
-  </section>
-
-
-  <!-- METHODOLOGY -->
-
-  <section class="card methodology">
-
-    <h2>Scoring Methodology</h2>
-
-    <p class="card-description">
-
-      The tool uses a five-dimension weighted scoring model to
-      provide a consistent framework for comparing potential
-      AI opportunities.
-
-    </p>
-
+  <div
+    class="table-wrapper"
+    id="portfolioTable"
+    style="display:none;"
+  >
 
     <table>
 
@@ -1025,200 +734,265 @@
 
         <tr>
 
-          <th>Dimension</th>
-          <th>Weight</th>
-          <th>What it considers</th>
+          <th>#</th>
+          <th>AI Opportunity</th>
+          <th>Value</th>
+          <th>Feasibility</th>
+          <th>Time</th>
+          <th>Risk</th>
+          <th>Alignment</th>
+          <th>Score</th>
+          <th>Decision</th>
+          <th></th>
 
         </tr>
 
       </thead>
 
-
-      <tbody>
-
-        <tr>
-
-          <td>Business Value</td>
-
-          <td>30%</td>
-
-          <td>
-            Revenue opportunity, cost reduction, productivity,
-            customer or employee experience and risk reduction.
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td>Feasibility</td>
-
-          <td>20%</td>
-
-          <td>
-            Data availability, technology readiness,
-            skills, process maturity and organizational readiness.
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td>Time to Value</td>
-
-          <td>20%</td>
-
-          <td>
-            Expected speed of realizing measurable business benefits.
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td>Risk</td>
-
-          <td>15%</td>
-
-          <td>
-            Business, regulatory, privacy, cybersecurity,
-            accuracy, intellectual property and reputational risk.
-            Higher scores represent lower risk.
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td>Strategic Alignment</td>
-
-          <td>15%</td>
-
-          <td>
-            Alignment with business strategy, strategic priorities
-            and transformation objectives.
-          </td>
-
-        </tr>
-
-      </tbody>
+      <tbody id="portfolioBody"></tbody>
 
     </table>
 
-
-    <h3>Priority Score Formula</h3>
-
-    <p>
-      <strong>
-        Priority Score =
-        (Business Value × 30%) +
-        (Feasibility × 20%) +
-        (Time to Value × 20%) +
-        (Risk × 15%) +
-        (Strategic Alignment × 15%)
-      </strong>
-    </p>
-
-    <p class="disclaimer">
-      Each dimension is scored from 1–5. The weighted result is
-      normalized to a score from 0–100.
-    </p>
+  </div>
 
 
-    <h3>Decision Thresholds</h3>
+  <div
+    class="executive-insight"
+    id="executiveInsight"
+    style="display:none;"
+  >
+
+    <h3>Executive Portfolio Recommendation</h3>
+
+    <div id="executiveText"></div>
+
+  </div>
+
+</section>
 
 
-    <table>
+<!-- MATRIX -->
 
-      <tbody>
+<section class="card">
 
-        <tr>
+  <h2>AI Opportunity Portfolio Matrix</h2>
 
-          <td><strong>80–100</strong></td>
-
-          <td>PRIORITIZE</td>
-
-          <td>
-            Strong candidate for detailed discovery,
-            pilot planning or investment.
-          </td>
-
-        </tr>
+  <p class="card-description">
+    The matrix compares Business Value and Feasibility across the entire
+    portfolio. Each dot represents an AI opportunity.
+  </p>
 
 
-        <tr>
+  <div class="matrix">
 
-          <td><strong>65–79</strong></td>
+    <div class="quadrant investigate">
 
-          <td>EXPERIMENT</td>
+      <h3>INVESTIGATE</h3>
 
-          <td>
-            Promising opportunity suitable for controlled
-            experimentation and evidence gathering.
-          </td>
+      <p>
+        High potential value but lower feasibility.
+        Further analysis, capability building or experimentation may be required.
+      </p>
 
-        </tr>
-
-
-        <tr>
-
-          <td><strong>50–64</strong></td>
-
-          <td>INVESTIGATE</td>
-
-          <td>
-            Further evidence and analysis recommended before
-            committing significant resources.
-          </td>
-
-        </tr>
+    </div>
 
 
-        <tr>
+    <div class="quadrant prioritize">
 
-          <td><strong>0–49</strong></td>
+      <h3>PRIORITIZE</h3>
 
-          <td>DEFER</td>
+      <p>
+        High value and high feasibility.
+        Strong candidates for investment and pilots.
+      </p>
 
-          <td>
-            Not currently a priority based on the assessment.
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </section>
+    </div>
 
 
-  <!-- ABOUT -->
+    <div class="quadrant defer">
 
-  <section class="card">
+      <h3>DEFER</h3>
 
-    <h2>About This Tool</h2>
+      <p>
+        Lower value and lower feasibility.
+        Revisit if circumstances change.
+      </p>
 
-    <p class="disclaimer">
+    </div>
 
-      This is an independently developed professional portfolio project.
-      The tool is intended as a decision-support framework rather than
-      a substitute for detailed financial, technology, legal, regulatory
-      or risk analysis.
 
-      <br><br>
+    <div class="quadrant experiment">
 
-      All examples are illustrative. No confidential, proprietary,
-      commercially sensitive or employer-specific information is used,
-      collected or stored by this tool.
+      <h3>EXPERIMENT</h3>
 
-    </p>
+      <p>
+        Lower value but relatively easy to implement.
+        Suitable for controlled experimentation.
+      </p>
 
-  </section>
+    </div>
+
+
+    <div
+      id="matrixDots"
+    ></div>
+
+
+    <div class="axis-y">
+      BUSINESS VALUE
+    </div>
+
+
+    <div class="high-label">
+      HIGH
+    </div>
+
+
+    <div class="low-label">
+      LOW
+    </div>
+
+  </div>
+
+
+  <div class="axis-x">
+    FEASIBILITY → LOW to HIGH
+  </div>
+
+</section>
+
+
+<!-- METHODOLOGY -->
+
+<section class="card methodology">
+
+  <h2>Scoring Methodology</h2>
+
+  <p class="card-description">
+    Each opportunity is scored from 1–5 across five dimensions.
+    The weighted score is converted to a 0–100 scale.
+  </p>
+
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>Dimension</th>
+        <th>Weight</th>
+        <th>What it considers</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>Business Value</td>
+        <td>30%</td>
+        <td>
+          Revenue, cost, productivity, experience and risk impact.
+        </td>
+      </tr>
+
+      <tr>
+        <td>Feasibility</td>
+        <td>20%</td>
+        <td>
+          Data, technology, skills and organizational readiness.
+        </td>
+      </tr>
+
+      <tr>
+        <td>Time to Value</td>
+        <td>20%</td>
+        <td>
+          Expected speed of realizing meaningful benefits.
+        </td>
+      </tr>
+
+      <tr>
+        <td>Risk</td>
+        <td>15%</td>
+        <td>
+          Business, regulatory, privacy, security and reputational risk.
+        </td>
+      </tr>
+
+      <tr>
+        <td>Strategic Alignment</td>
+        <td>15%</td>
+        <td>
+          Alignment with business strategy and priorities.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+
+  <h3>Decision Thresholds</h3>
+
+
+  <table>
+
+    <tbody>
+
+      <tr>
+        <td><strong>80–100</strong></td>
+        <td>PRIORITIZE</td>
+        <td>Strong candidate for investment or pilot planning.</td>
+      </tr>
+
+      <tr>
+        <td><strong>65–79</strong></td>
+        <td>EXPERIMENT</td>
+        <td>Promising opportunity suitable for controlled experimentation.</td>
+      </tr>
+
+      <tr>
+        <td><strong>50–64</strong></td>
+        <td>INVESTIGATE</td>
+        <td>Further evidence and analysis recommended.</td>
+      </tr>
+
+      <tr>
+        <td><strong>0–49</strong></td>
+        <td>DEFER</td>
+        <td>Not currently a priority based on the assessment.</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="card">
+
+  <h2>About This Toolkit</h2>
+
+  <p class="disclaimer">
+
+    This is an independently developed professional portfolio project.
+    The toolkit is intended as a decision-support framework rather than
+    a substitute for detailed financial, technology, legal, regulatory
+    or risk analysis.
+
+    <br><br>
+
+    All examples are illustrative. No confidential, proprietary,
+    commercially sensitive or employer-specific information is used,
+    collected or stored by this tool.
+
+  </p>
+
+</section>
 
 
 </main>
@@ -1226,7 +1000,7 @@
 
 <footer>
 
-  AI Use-Case Scoring Tool • Independent Professional Portfolio
+  AI Investment Decision Toolkit • Independent Professional Portfolio
 
 </footer>
 
@@ -1234,48 +1008,18 @@
 <script>
 
 
-function calculateScore() {
+/* =========================================================
+   PORTFOLIO DATA
+   ========================================================= */
 
-  const useCase =
-    document.getElementById("useCase").value.trim()
-    || "Unnamed AI use case";
-
-
-  const value =
-    Number(document.getElementById("value").value);
+let opportunities = [];
 
 
-  const feasibility =
-    Number(document.getElementById("feasibility").value);
+/* =========================================================
+   CALCULATE SCORE
+   ========================================================= */
 
-
-  const time =
-    Number(document.getElementById("time").value);
-
-
-  const risk =
-    Number(document.getElementById("risk").value);
-
-
-  const alignment =
-    Number(document.getElementById("alignment").value);
-
-
-  /*
-    FIVE-DIMENSION WEIGHTED SCORE
-
-    Business Value       30%
-    Feasibility          20%
-    Time to Value        20%
-    Risk                 15%
-    Strategic Alignment  15%
-
-    TOTAL                100%
-
-    Probability of Success
-    is intentionally NOT included.
-  */
-
+function calculateScore(value, feasibility, time, risk, alignment) {
 
   const weightedScore =
       (value * 0.30)
@@ -1284,378 +1028,488 @@ function calculateScore() {
     + (risk * 0.15)
     + (alignment * 0.15);
 
-
-  /*
-    Convert 1–5 weighted score into 0–100.
-  */
-
-
-  const percentage =
-    Math.round((weightedScore / 5) * 100);
-
-
-  let recommendation;
-  let summary;
-
-
-  /*
-    EXECUTIVE DECISION LOGIC
-  */
-
-
-  if (percentage >= 80) {
-
-    recommendation = "PRIORITIZE";
-
-    summary =
-      "This opportunity demonstrates strong overall potential " +
-      "across business value, feasibility, time to value, risk " +
-      "and strategic alignment. It should be considered for " +
-      "detailed discovery, pilot planning or investment. " +
-      "The next step should be to define the business case, " +
-      "success measures, ownership and appropriate controls.";
-
-  }
-
-
-  else if (percentage >= 65) {
-
-    recommendation = "EXPERIMENT";
-
-    summary =
-      "This opportunity appears promising but does not yet " +
-      "justify full-scale investment. A controlled experiment " +
-      "or proof of concept should be used to generate evidence " +
-      "about business value, feasibility, adoption and risk " +
-      "before committing significant resources.";
-
-  }
-
-
-  else if (percentage >= 50) {
-
-    recommendation = "INVESTIGATE";
-
-    summary =
-      "There may be meaningful potential in this opportunity, " +
-      "but the current assessment does not provide enough " +
-      "confidence for prioritization. Further analysis should " +
-      "focus on the business problem, expected value, feasibility, " +
-      "risk and strategic relevance.";
-
-  }
-
-
-  else {
-
-    recommendation = "DEFER";
-
-    summary =
-      "Based on the current assessment, this opportunity should " +
-      "not be a priority at this stage. Resources should be focused " +
-      "on stronger opportunities. Reassess if business priorities, " +
-      "technology, feasibility or the underlying opportunity changes.";
-
-  }
-
-
-  /*
-    DISPLAY RESULT
-  */
-
-
-  document.getElementById("score").textContent =
-    percentage;
-
-
-  document.getElementById("recommendation").textContent =
-    recommendation;
-
-
-  document.getElementById("resultUseCase").textContent =
-    useCase;
-
-
-  document.getElementById("summary").textContent =
-    summary;
-
-
-  /*
-    DISPLAY SCORES
-  */
-
-
-  document.getElementById("valueScore").textContent =
-    value + " / 5";
-
-
-  document.getElementById("feasibilityScore").textContent =
-    feasibility + " / 5";
-
-
-  document.getElementById("timeScore").textContent =
-    time + " / 5";
-
-
-  document.getElementById("riskScore").textContent =
-    risk + " / 5";
-
-
-  document.getElementById("alignmentScore").textContent =
-    alignment + " / 5";
-
-
-  /*
-    UPDATE BARS
-  */
-
-
-  document.getElementById("valueBar").style.width =
-    (value / 5 * 100) + "%";
-
-
-  document.getElementById("feasibilityBar").style.width =
-    (feasibility / 5 * 100) + "%";
-
-
-  document.getElementById("timeBar").style.width =
-    (time / 5 * 100) + "%";
-
-
-  document.getElementById("riskBar").style.width =
-    (risk / 5 * 100) + "%";
-
-
-  document.getElementById("alignmentBar").style.width =
-    (alignment / 5 * 100) + "%";
-
-
-  /*
-    STRENGTHS
-  */
-
-
-  const strengths = [];
-
-
-  if (value >= 4)
-    strengths.push("High potential business value");
-
-
-  if (feasibility >= 4)
-    strengths.push("Strong implementation feasibility");
-
-
-  if (time >= 4)
-    strengths.push("Relatively fast path to measurable value");
-
-
-  if (risk >= 4)
-    strengths.push("Manageable risk profile");
-
-
-  if (alignment >= 4)
-    strengths.push("Strong strategic alignment");
-
-
-  if (strengths.length === 0)
-    strengths.push("No individual dimension scored strongly");
-
-
-  document.getElementById("strengths").innerHTML =
-    strengths
-      .map(item => "<li>" + item + "</li>")
-      .join("");
-
-
-  /*
-    CONSIDERATIONS
-  */
-
-
-  const considerations = [];
-
-
-  if (value <= 2)
-    considerations.push("Limited expected business value");
-
-
-  if (feasibility <= 2)
-    considerations.push("Implementation may be difficult");
-
-
-  if (time <= 2)
-    considerations.push("Longer expected time to value");
-
-
-  if (risk <= 2)
-    considerations.push("Higher risk requires additional controls");
-
-
-  if (alignment <= 2)
-    considerations.push("Limited strategic alignment");
-
-
-  if (considerations.length === 0)
-    considerations.push("No major scoring concerns identified");
-
-
-  document.getElementById("considerations").innerHTML =
-    considerations
-      .map(item => "<li>" + item + "</li>")
-      .join("");
-
-
-  /*
-    UPDATE PORTFOLIO MATRIX
-  */
-
-
-  updateMatrix(
-    value,
-    feasibility,
-    useCase
-  );
-
-
-  /*
-    SHOW RESULTS
-  */
-
-
-  document.getElementById("result").style.display =
-    "block";
-
-
-  document.getElementById("result").scrollIntoView({
-    behavior: "smooth"
-  });
+  return Math.round((weightedScore / 5) * 100);
 
 }
 
 
+/* =========================================================
+   DECISION CATEGORY
+   ========================================================= */
 
-function updateMatrix(
-  value,
-  feasibility,
-  useCase
-) {
+function getDecision(score) {
 
-  const dot =
-    document.getElementById("opportunityDot");
+  if (score >= 80) {
+    return "PRIORITIZE";
+  }
 
+  if (score >= 65) {
+    return "EXPERIMENT";
+  }
 
-  const label =
-    document.getElementById("opportunityLabel");
+  if (score >= 50) {
+    return "INVESTIGATE";
+  }
 
+  return "DEFER";
 
-  /*
-    Convert 1–5 scores into percentages.
-
-    Feasibility controls horizontal position.
-
-    Business Value controls vertical position.
-  */
-
-
-  const x =
-    ((feasibility - 1) / 4) * 100;
+}
 
 
-  const y =
-    ((value - 1) / 4) * 100;
+/* =========================================================
+   ADD OPPORTUNITY
+   ========================================================= */
+
+function addOpportunity() {
+
+  const useCase =
+    document.getElementById("useCase").value.trim();
+
+  if (!useCase) {
+
+    alert("Please enter an AI opportunity.");
+
+    return;
+
+  }
 
 
-  /*
-    CSS coordinates begin at the top.
+  const opportunity = {
 
-    Therefore high Business Value
-    appears toward the top.
-  */
+    id: Date.now(),
+
+    name: useCase,
+
+    value:
+      Number(document.getElementById("value").value),
+
+    feasibility:
+      Number(document.getElementById("feasibility").value),
+
+    time:
+      Number(document.getElementById("time").value),
+
+    risk:
+      Number(document.getElementById("risk").value),
+
+    alignment:
+      Number(document.getElementById("alignment").value)
+
+  };
+
+
+  opportunity.score =
+    calculateScore(
+      opportunity.value,
+      opportunity.feasibility,
+      opportunity.time,
+      opportunity.risk,
+      opportunity.alignment
+    );
+
+
+  opportunity.decision =
+    getDecision(opportunity.score);
+
+
+  opportunities.push(opportunity);
+
+
+  document.getElementById("useCase").value = "";
+
+
+  renderPortfolio();
+
+}
+
+
+/* =========================================================
+   REMOVE OPPORTUNITY
+   ========================================================= */
+
+function removeOpportunity(id) {
+
+  opportunities =
+    opportunities.filter(
+      opportunity => opportunity.id !== id
+    );
+
+  renderPortfolio();
+
+}
+
+
+/* =========================================================
+   RENDER PORTFOLIO
+   ========================================================= */
+
+function renderPortfolio() {
+
+  const body =
+    document.getElementById("portfolioBody");
+
+  const table =
+    document.getElementById("portfolioTable");
+
+  const empty =
+    document.getElementById("emptyState");
+
+
+  if (opportunities.length === 0) {
+
+    table.style.display = "none";
+
+    empty.style.display = "block";
+
+    document.getElementById("executiveInsight").style.display =
+      "none";
+
+    document.getElementById("matrixDots").innerHTML =
+      "";
+
+    updateSummary();
+
+    return;
+
+  }
+
+
+  empty.style.display = "none";
+
+  table.style.display = "block";
+
+
+  const ranked =
+    [...opportunities].sort(
+      (a, b) => b.score - a.score
+    );
+
+
+  body.innerHTML = ranked.map(
+    (opportunity, index) => {
+
+      const badgeClass =
+        opportunity.decision
+          .toLowerCase()
+          .replace("investigate", "investigate");
+
+
+      return `
+
+        <tr>
+
+          <td class="rank">
+            ${index + 1}
+          </td>
+
+          <td>
+            <strong>${escapeHtml(opportunity.name)}</strong>
+          </td>
+
+          <td>${opportunity.value}/5</td>
+
+          <td>${opportunity.feasibility}/5</td>
+
+          <td>${opportunity.time}/5</td>
+
+          <td>${opportunity.risk}/5</td>
+
+          <td>${opportunity.alignment}/5</td>
+
+          <td>
+            <span class="score-number">
+              ${opportunity.score}
+            </span>
+          </td>
+
+          <td>
+            <span class="badge badge-${badgeClass}">
+              ${opportunity.decision}
+            </span>
+          </td>
+
+          <td>
+            <button
+              class="remove-button"
+              onclick="removeOpportunity(${opportunity.id})"
+            >
+              Remove
+            </button>
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  ).join("");
+
+
+  updateSummary();
+
+  updateExecutiveInsight(ranked);
+
+  updateMatrix();
+
+}
+
+
+/* =========================================================
+   SUMMARY COUNTS
+   ========================================================= */
+
+function updateSummary() {
+
+  document.getElementById("totalCount").textContent =
+    opportunities.length;
+
+
+  document.getElementById("prioritizeCount").textContent =
+    opportunities.filter(
+      o => o.decision === "PRIORITIZE"
+    ).length;
+
+
+  document.getElementById("experimentCount").textContent =
+    opportunities.filter(
+      o => o.decision === "EXPERIMENT"
+    ).length;
+
+
+  document.getElementById("deferCount").textContent =
+    opportunities.filter(
+      o => o.decision === "DEFER"
+    ).length;
+
+}
+
+
+/* =========================================================
+   EXECUTIVE PORTFOLIO INSIGHT
+   ========================================================= */
+
+function updateExecutiveInsight(ranked) {
+
+  const insight =
+    document.getElementById("executiveInsight");
+
+  const text =
+    document.getElementById("executiveText");
+
+
+  if (ranked.length === 0) {
+
+    insight.style.display = "none";
+
+    return;
+
+  }
+
+
+  const prioritize =
+    ranked.filter(
+      o => o.decision === "PRIORITIZE"
+    );
+
+
+  const experiment =
+    ranked.filter(
+      o => o.decision === "EXPERIMENT"
+    );
+
+
+  const investigate =
+    ranked.filter(
+      o => o.decision === "INVESTIGATE"
+    );
+
+
+  const defer =
+    ranked.filter(
+      o => o.decision === "DEFER"
+    );
 
 
   const top =
-    100 - y;
+    ranked[0];
 
 
-  dot.style.left =
-    x + "%";
+  let recommendation = "";
 
 
-  dot.style.top =
-    top + "%";
+  if (prioritize.length > 0) {
+
+    recommendation +=
+      `<p><strong>Investment focus:</strong> ` +
+      `${prioritize.length} opportunity` +
+      `${prioritize.length === 1 ? "" : "ies"} ` +
+      `currently meet the threshold for prioritization.</p>`;
+
+  }
 
 
-  label.style.left =
-    x + "%";
+  if (experiment.length > 0) {
+
+    recommendation +=
+      `<p><strong>Validation focus:</strong> ` +
+      `${experiment.length} opportunity` +
+      `${experiment.length === 1 ? " is" : "ies are"} ` +
+      `better suited to controlled experimentation before larger investment.</p>`;
+
+  }
 
 
-  label.style.top =
-    top + "%";
+  if (investigate.length > 0) {
+
+    recommendation +=
+      `<p><strong>Evidence required:</strong> ` +
+      `${investigate.length} opportunity` +
+      `${investigate.length === 1 ? " requires" : "ies require"} ` +
+      `further analysis before a significant commitment.</p>`;
+
+  }
 
 
-  label.textContent =
-    useCase;
+  if (defer.length > 0) {
+
+    recommendation +=
+      `<p><strong>Deprioritize:</strong> ` +
+      `${defer.length} opportunity` +
+      `${defer.length === 1 ? " should" : "ies should"} ` +
+      `not currently receive priority investment.</p>`;
+
+  }
 
 
-  dot.style.display =
-    "block";
+  recommendation +=
+    `<p><strong>Top-ranked opportunity:</strong> ` +
+    `${escapeHtml(top.name)} with a priority score of ` +
+    `${top.score}/100.</p>`;
 
 
-  label.style.display =
-    "block";
+  text.innerHTML = recommendation;
+
+  insight.style.display = "block";
+
+}
+
+
+/* =========================================================
+   MATRIX
+   ========================================================= */
+
+function updateMatrix() {
+
+  const container =
+    document.getElementById("matrixDots");
+
+  container.innerHTML = "";
+
+
+  opportunities.forEach(
+    opportunity => {
+
+      const x =
+        ((opportunity.feasibility - 1) / 4) * 100;
+
+
+      const y =
+        100 -
+        ((opportunity.value - 1) / 4) * 100;
+
+
+      const dot =
+        document.createElement("div");
+
+      dot.className =
+        "matrix-dot";
+
+
+      dot.style.left =
+        x + "%";
+
+      dot.style.top =
+        y + "%";
+
+
+      const label =
+        document.createElement("div");
+
+      label.className =
+        "matrix-dot-label";
+
+
+      label.style.left =
+        x + "%";
+
+      label.style.top =
+        y + "%";
+
+
+      label.textContent =
+        opportunity.name;
+
+
+      container.appendChild(dot);
+
+      container.appendChild(label);
+
+    }
+  );
 
 }
 
 
+/* =========================================================
+   CLEAR PORTFOLIO
+   ========================================================= */
 
-function resetTool() {
+function clearPortfolio() {
 
-  document.getElementById("useCase").value =
-    "";
+  if (
+    opportunities.length > 0 &&
+    !confirm(
+      "Clear all opportunities from this portfolio?"
+    )
+  ) {
 
+    return;
 
-  document.getElementById("value").value =
-    "3";
-
-
-  document.getElementById("feasibility").value =
-    "3";
-
-
-  document.getElementById("time").value =
-    "3";
-
-
-  document.getElementById("risk").value =
-    "3";
+  }
 
 
-  document.getElementById("alignment").value =
-    "3";
+  opportunities = [];
 
-
-  document.getElementById("result").style.display =
-    "none";
-
-
-  document.getElementById("opportunityDot").style.display =
-    "none";
-
-
-  document.getElementById("opportunityLabel").style.display =
-    "none";
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  renderPortfolio();
 
 }
+
+
+/* =========================================================
+   BASIC HTML ESCAPING
+   ========================================================= */
+
+function escapeHtml(text) {
+
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+renderPortfolio();
 
 
 </script>
 
 </body>
 </html>
+```
